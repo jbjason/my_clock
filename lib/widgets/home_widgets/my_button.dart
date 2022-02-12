@@ -39,7 +39,7 @@ class MyButton extends StatelessWidget {
               const Color(0xFFEBF3FE).withOpacity(0.8),
               const Color(0xFF3F6080).withOpacity(.2),
             ],
-            stops: const [0.1, 0.3, 0.5, 1],
+            stops: const [0.1, 0.3, 0.4, 1],
           ),
         ),
       ),

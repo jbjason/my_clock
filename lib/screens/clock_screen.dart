@@ -100,7 +100,7 @@ class ClockPainter extends CustomPainter {
 
     Paint dashPaint = Paint()
       ..color = Colors.white
-      ..strokeWidth = 3
+      ..strokeWidth = 4
       ..strokeCap = StrokeCap.round;
     Paint secdashPaint = Paint()
       ..color = Colors.white
