@@ -11,7 +11,7 @@ class _TimerScreenState extends State<TimerScreen> {
   late FixedExtentScrollController _hourController;
   late FixedExtentScrollController _minuteController;
   late FixedExtentScrollController _secondController;
-  int h = 5, m = 5, s = 10;
+  int h = 5, m = 5, s = 5;
 
   @override
   void initState() {
@@ -33,30 +33,63 @@ class _TimerScreenState extends State<TimerScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const HoursMinSecTitleText(),
-          // ListWheels of sec,min,hour
-          Container(
-            padding: const EdgeInsets.only(right: 5, left: 5),
-            height: size.height * .5,
-            child: Row(
-              children: [
-                const SizedBox(width: 5),
-                //hours
-                _listWheel(size, _hourController, 12, 'h'),
-                // minutes
-                _listWheel(size, _minuteController, 61, 'm'),
-                //seconds
-                _listWheel(size, _secondController, 61, 's'),
-              ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const HoursMinSecTitleText(),
+            // ListWheels of sec,min,hour
+            Container(
+              padding: const EdgeInsets.only(right: 5, left: 5),
+              height: size.height * .48,
+              child: Row(
+                children: [
+                  const SizedBox(width: 5),
+                  //hours
+                  _listWheel(size, _hourController, 12, 'h'),
+                  // minutes
+                  _listWheel(size, _minuteController, 61, 'm'),
+                  //seconds
+                  _listWheel(size, _secondController, 61, 's'),
+                ],
+              ),
             ),
-          ),
-          MinuteIncreasingContainer(minuteController: _minuteController),
-          
-        ],
+            MinuteIncreasingContainer(minuteController: _minuteController),
+            InkWell(
+              onTap: () {},
+              child: Container(
+              //  width: 150,
+                child: const Text('Start',textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.4,
+                  ),
+                ),
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade500,
+                      offset: const Offset(4, 4),
+                      blurRadius: 15,
+                      spreadRadius: 8,
+                    ),
+                    const BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-4, -4),
+                      blurRadius: 15,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -66,7 +99,7 @@ class _TimerScreenState extends State<TimerScreen> {
     return Expanded(
       child: ListWheelScrollView.useDelegate(
         controller: controller,
-        itemExtent: size.height * .15,
+        itemExtent: size.height * .17,
         perspective: 0.008,
         diameterRatio: 1.8,
         useMagnifier: true,
@@ -163,7 +196,8 @@ class MinuteIncreasingContainer extends StatelessWidget {
   const MinuteIncreasingContainer({
     Key? key,
     required FixedExtentScrollController minuteController,
-  }) : _minuteController = minuteController, super(key: key);
+  })  : _minuteController = minuteController,
+        super(key: key);
 
   final FixedExtentScrollController _minuteController;
 
@@ -180,8 +214,7 @@ class MinuteIncreasingContainer extends StatelessWidget {
         onPressed: () {
           final _increaseMinute = _minuteController.selectedItem + 10;
           _minuteController.animateToItem(_increaseMinute,
-              duration: const Duration(seconds: 1),
-              curve: Curves.easeInOut);
+              duration: const Duration(seconds: 1), curve: Curves.easeInOut);
         },
       ),
     );
