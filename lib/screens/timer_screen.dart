@@ -72,12 +72,11 @@ class _TimerScreenState extends State<TimerScreen> {
             child: TextButton(
                 child: const Text('00:10:00'),
                 onPressed: () {
-                  // setState(() {
-                  //   _minuteController = FixedExtentScrollController(
-                  //       initialItem: _minuteController.selectedItem + 10);
-                  // });
-                } //=>),
-                ),
+                  final _increaseMinute = _minuteController.selectedItem + 10;
+                  _minuteController.animateToItem(_increaseMinute,
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.easeInOut);
+                }),
           ),
         ],
       ),
