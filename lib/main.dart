@@ -4,9 +4,9 @@ import 'package:my_clock/screens/home_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    systemNavigationBarColor:  Color(0xFFEBF3FE),
+    systemNavigationBarColor: Color(0xFFEBF3FE),
     systemNavigationBarIconBrightness: Brightness.dark, // navigation bar color
-    statusBarColor:  Color(0xFFEBF3FE), // status bar color
+    statusBarColor: Color(0xFFEBF3FE), // status bar color
   ));
   runApp(const MyApp());
 }
