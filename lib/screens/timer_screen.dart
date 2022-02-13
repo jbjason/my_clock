@@ -37,17 +37,8 @@ class _TimerScreenState extends State<TimerScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                Text('Hours'),
-                Text('Minutes'),
-                Text('Seconds'),
-              ],
-            ),
-          ),
+          const HoursMinSecTitleText(),
+          // ListWheels of sec,min,hour
           Container(
             padding: const EdgeInsets.only(right: 5, left: 5),
             height: size.height * .5,
@@ -63,21 +54,8 @@ class _TimerScreenState extends State<TimerScreen> {
               ],
             ),
           ),
-          Container(
-            height: 100,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey[700]!, width: 2),
-            ),
-            child: TextButton(
-                child: const Text('00:10:00'),
-                onPressed: () {
-                  final _increaseMinute = _minuteController.selectedItem + 10;
-                  _minuteController.animateToItem(_increaseMinute,
-                      duration: const Duration(seconds: 1),
-                      curve: Curves.easeInOut);
-                }),
-          ),
+          MinuteIncreasingContainer(minuteController: _minuteController),
+          
         ],
       ),
     );
@@ -155,6 +133,56 @@ class _TimerScreenState extends State<TimerScreen> {
             spreadRadius: 1,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class HoursMinSecTitleText extends StatelessWidget {
+  const HoursMinSecTitleText({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: const [
+          Text('Hours'),
+          Text('Minutes'),
+          Text('Seconds'),
+        ],
+      ),
+    );
+  }
+}
+
+class MinuteIncreasingContainer extends StatelessWidget {
+  const MinuteIncreasingContainer({
+    Key? key,
+    required FixedExtentScrollController minuteController,
+  }) : _minuteController = minuteController, super(key: key);
+
+  final FixedExtentScrollController _minuteController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.grey[700]!, width: 2),
+      ),
+      child: TextButton(
+        child: const Text('00:10:00'),
+        onPressed: () {
+          final _increaseMinute = _minuteController.selectedItem + 10;
+          _minuteController.animateToItem(_increaseMinute,
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeInOut);
+        },
       ),
     );
   }
