@@ -1,16 +1,15 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class TimerClock extends StatefulWidget {
-  const TimerClock({Key? key}) : super(key: key);
-  //final Duration initDuration;
+  const TimerClock({Key? key, required this.initDuration}) : super(key: key);
+  final Duration initDuration;
   @override
   _TimerClockState createState() => _TimerClockState();
 }
 
 class _TimerClockState extends State<TimerClock> {
-   Duration duration =const Duration(minutes: 1,seconds: 25);
+  late Duration duration;
   double _totalTime = 0;
   var _currentCountDown = const Duration(minutes: 0);
   Timer? timer;
@@ -18,7 +17,7 @@ class _TimerClockState extends State<TimerClock> {
   @override
   void initState() {
     super.initState();
-    //duration = widget.initDuration;
+    duration = widget.initDuration;
     _totalTime = duration.inSeconds.toDouble();
   }
 
@@ -81,7 +80,7 @@ class _TimerClockState extends State<TimerClock> {
           ],
         ),
       );
-
+  // getting values for ProgressIndicator(value:)
   double _setSecond(Duration dur) {
     // CircularProgressIndicator(value:) takes only fruction values ..
     // here getting part value(double) of totalTime .ex. totalTIme=120 ,
@@ -100,7 +99,7 @@ class _TimerClockState extends State<TimerClock> {
     // 1 is the destination for clockWise process
     return _currentSecond;
   }
-
+  // Current time ,situated inside of the ProgressIndicator 
   Widget buildTime() {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final hours = twoDigits(duration.inHours);
@@ -117,7 +116,7 @@ class _TimerClockState extends State<TimerClock> {
       ],
     );
   }
-
+  // buildTime()'s outside structure
   Widget buildTimeCard({required String time, required String header}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

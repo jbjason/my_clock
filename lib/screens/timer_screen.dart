@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_clock/widgets/timer_widgets/timer_clock.dart';
 
 class TimerScreen extends StatefulWidget {
   const TimerScreen({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class _TimerScreenState extends State<TimerScreen> {
   late FixedExtentScrollController _minuteController;
   late FixedExtentScrollController _secondController;
   int h = 5, m = 5, s = 5;
+  bool _isTimerSet = false;
 
   @override
   void initState() {
@@ -32,38 +34,41 @@ class _TimerScreenState extends State<TimerScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const HoursMinSecTitleText(),
-            // ListWheels of sec,min,hour
-            Container(
-              padding: const EdgeInsets.only(right: 5, left: 5),
-              height: size.height * .48,
-              child: Row(
+    return _isTimerSet
+        ? TimerClock(initDuration: Duration(hours: h, minutes: m, seconds: s))
+        : Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(width: 5),
-                  //hours
-                  _listWheel(size, _hourController, 12, 'h'),
-                  // minutes
-                  _listWheel(size, _minuteController, 61, 'm'),
-                  //seconds
-                  _listWheel(size, _secondController, 61, 's'),
+                  const HoursMinSecTitleText(),
+                  // ListWheels of sec,min,hour
+                  Container(
+                    padding: const EdgeInsets.only(right: 5, left: 5),
+                    height: size.height * .48,
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 5),
+                        //hours
+                        _listWheel(size, _hourController, 12, 'h'),
+                        // minutes
+                        _listWheel(size, _minuteController, 61, 'm'),
+                        //seconds
+                        _listWheel(size, _secondController, 61, 's'),
+                      ],
+                    ),
+                  ),
+                  MinuteIncreasingContainer(
+                      minuteController: _minuteController),
+                  InkWell(
+                    onTap: () => setState(() => _isTimerSet = true),
+                    child: const StartButtonBottom(),
+                  ),
                 ],
               ),
             ),
-            MinuteIncreasingContainer(minuteController: _minuteController),
-            InkWell(
-              onTap: () {},
-              child: const StartButtonBottom(),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   Widget _listWheel(Size size, FixedExtentScrollController controller,
@@ -151,7 +156,9 @@ class StartButtonBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: const Text('Start',textAlign: TextAlign.center,
+      child: const Text(
+        'Start',
+        textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,

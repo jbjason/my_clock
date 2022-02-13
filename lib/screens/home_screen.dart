@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const TimerClock(),
+      body: const TimerScreen(),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
