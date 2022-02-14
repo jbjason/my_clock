@@ -61,6 +61,7 @@ class _TimerScreenState extends State<TimerScreen> {
                   ),
                   MinuteIncreasingContainer(
                       minuteController: _minuteController),
+                  const SizedBox(height: 10),
                   InkWell(
                     onTap: () => setState(() => _isTimerSet = true),
                     child: const StartButtonBottom(),
@@ -167,14 +168,14 @@ class StartButtonBottom extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(30),
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: Colors.grey[400],
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.shade500,
             offset: const Offset(4, 4),
             blurRadius: 15,
-            spreadRadius: 8,
+            spreadRadius: 5,
           ),
           const BoxShadow(
             color: Colors.white,

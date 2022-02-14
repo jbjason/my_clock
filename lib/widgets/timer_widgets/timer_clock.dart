@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:my_clock/widgets/timer_widgets/white_button.dart';
 
 class TimerClock extends StatefulWidget {
   const TimerClock({Key? key, required this.initDuration}) : super(key: key);
@@ -10,7 +11,8 @@ class TimerClock extends StatefulWidget {
 
 class _TimerClockState extends State<TimerClock> {
   late Duration duration;
-  double _totalTime = 0;
+  double _totalTime = 0, ab = 0;
+  bool flag = true;
   var _currentCountDown = const Duration(minutes: 0);
   Timer? timer;
 
@@ -19,6 +21,7 @@ class _TimerClockState extends State<TimerClock> {
     super.initState();
     duration = widget.initDuration;
     _totalTime = duration.inSeconds.toDouble();
+    _startWatchh();
   }
 
   void _startWatchh() {
@@ -35,11 +38,15 @@ class _TimerClockState extends State<TimerClock> {
     setState(() {
       _currentCountDown = duration;
       timer?.cancel();
+      flag = !flag;
     });
   }
 
   void _resumeWatchh() {
-    setState(() => duration = _currentCountDown);
+    setState(() {
+      duration = _currentCountDown;
+      flag = !flag;
+    });
     _startWatchh();
   }
 
@@ -49,16 +56,36 @@ class _TimerClockState extends State<TimerClock> {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          child: buildStopWatch(duration),
-        ),
+        Container(child: buildStopWatch(duration)),
         const SizedBox(height: 50),
-        ElevatedButton(
-            onPressed: () => _startWatchh(), child: const Text('Start')),
-        ElevatedButton(
-            onPressed: () => _stopWatchh(), child: const Text('Stop')),
-        ElevatedButton(
-            onPressed: () => _resumeWatchh(), child: const Text('Resume')),
+        Visibility(
+          visible: flag,
+          child: InkWell(
+            onTap: () => _stopWatchh(),
+            child: WhiteButton(isTrue: flag, text: 'Stop'),
+          ),
+        ),
+        Visibility(
+          visible: !flag,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: () => _resumeWatchh(),
+                child: WhiteButton(isTrue: flag, text: 'Resume'),
+              ),
+              InkWell(
+                onTap: () {
+                  if (mounted) {
+                    timer?.cancel();
+                    // Navigator.pop(context);
+                  }
+                },
+                child: WhiteButton(isTrue: flag, text: 'Reset'),
+              ),
+            ],
+          ),
+        ),
       ],
     ));
   }
@@ -72,9 +99,9 @@ class _TimerClockState extends State<TimerClock> {
             CircularProgressIndicator(
               // Always takes fruction values like .1 .2 .3 .4 .5
               value: _setSecond(dur),
-              valueColor: const AlwaysStoppedAnimation(Colors.grey),
+              valueColor: const AlwaysStoppedAnimation(Colors.cyan),
               strokeWidth: 12,
-              backgroundColor: Colors.grey[300],
+              backgroundColor: Colors.cyan[200],
             ),
             Center(child: buildTime()),
           ],
@@ -99,7 +126,8 @@ class _TimerClockState extends State<TimerClock> {
     // 1 is the destination for clockWise process
     return _currentSecond;
   }
-  // Current time ,situated inside of the ProgressIndicator 
+
+  // Current time ,situated inside of the ProgressIndicator
   Widget buildTime() {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final hours = twoDigits(duration.inHours);
@@ -116,6 +144,7 @@ class _TimerClockState extends State<TimerClock> {
       ],
     );
   }
+
   // buildTime()'s outside structure
   Widget buildTimeCard({required String time, required String header}) {
     return Column(
@@ -129,8 +158,7 @@ class _TimerClockState extends State<TimerClock> {
           ),
           child: Text(
             time,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 30),
+            style: const TextStyle(color: Colors.black, fontSize: 30),
           ),
         ),
         const SizedBox(height: 15),
