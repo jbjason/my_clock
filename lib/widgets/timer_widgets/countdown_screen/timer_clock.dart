@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:my_clock/widgets/timer_widgets/timer_screen/countdown_screen/white_button.dart';
+import 'package:my_clock/widgets/timer_widgets/countdown_screen/white_button.dart';
 
 class TimerClock extends StatefulWidget {
   const TimerClock(
@@ -99,9 +99,9 @@ class _TimerClockState extends State<TimerClock> {
             CircularProgressIndicator(
               // Always takes fruction values like .1 .2 .3 .4 .5
               value: _setSecond(dur),
-              valueColor: const AlwaysStoppedAnimation(Colors.cyan),
+              valueColor: const AlwaysStoppedAnimation(Color(0xFF80DEEA)),
               strokeWidth: 12,
-              backgroundColor: Colors.cyan[200],
+              backgroundColor: Colors.cyan[50],
             ),
             Center(child: buildTime()),
           ],
