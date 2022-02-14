@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_clock/widgets/timer_widgets/hours_titletext.dart';
+import 'package:my_clock/widgets/timer_widgets/minuteadda_ten.dart';
+import 'package:my_clock/widgets/timer_widgets/start_bottom_button.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_clock.dart';
 
 class TimerScreen extends StatefulWidget {
@@ -23,25 +26,25 @@ class _TimerScreenState extends State<TimerScreen> {
     _secondController = FixedExtentScrollController(initialItem: s);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _hourController.dispose();
-    _minuteController.dispose();
-    _secondController.dispose();
+  void changeTimerMode() {
+    setState(() => _isTimerSet = !_isTimerSet);
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return _isTimerSet
-        ? TimerClock(initDuration: Duration(hours: h, minutes: m, seconds: s))
+        ? TimerClock(
+            initDuration: Duration(hours: h, minutes: m, seconds: s),
+            changeTimerMode: changeTimerMode,
+          )
         : Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // Title Hour Min Sec text
                   const HoursMinSecTitleText(),
                   // ListWheels of sec,min,hour
                   Container(
@@ -59,11 +62,12 @@ class _TimerScreenState extends State<TimerScreen> {
                       ],
                     ),
                   ),
-                  MinuteIncreasingContainer(
-                      minuteController: _minuteController),
+                  // Add Ten minutes
+                  MinuteAddTenMore(minuteController: _minuteController),
                   const SizedBox(height: 10),
+                  // start button
                   InkWell(
-                    onTap: () => setState(() => _isTimerSet = true),
+                    onTap: () => changeTimerMode(),
                     child: const StartButtonBottom(),
                   ),
                 ],
@@ -147,94 +151,12 @@ class _TimerScreenState extends State<TimerScreen> {
       ),
     );
   }
-}
-
-class StartButtonBottom extends StatelessWidget {
-  const StartButtonBottom({
-    Key? key,
-  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: const Text(
-        'Start',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1.4,
-        ),
-      ),
-      padding: const EdgeInsets.all(30),
-      decoration: BoxDecoration(
-        color: Colors.grey[400],
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade500,
-            offset: const Offset(4, 4),
-            blurRadius: 15,
-            spreadRadius: 5,
-          ),
-          const BoxShadow(
-            color: Colors.white,
-            offset: Offset(-4, -4),
-            blurRadius: 15,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class HoursMinSecTitleText extends StatelessWidget {
-  const HoursMinSecTitleText({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const [
-          Text('Hours'),
-          Text('Minutes'),
-          Text('Seconds'),
-        ],
-      ),
-    );
-  }
-}
-
-class MinuteIncreasingContainer extends StatelessWidget {
-  const MinuteIncreasingContainer({
-    Key? key,
-    required FixedExtentScrollController minuteController,
-  })  : _minuteController = minuteController,
-        super(key: key);
-
-  final FixedExtentScrollController _minuteController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.grey[700]!, width: 2),
-      ),
-      child: TextButton(
-        child: const Text('00:10:00'),
-        onPressed: () {
-          final _increaseMinute = _minuteController.selectedItem + 10;
-          _minuteController.animateToItem(_increaseMinute,
-              duration: const Duration(seconds: 1), curve: Curves.easeInOut);
-        },
-      ),
-    );
+  void dispose() {
+    super.dispose();
+    _hourController.dispose();
+    _minuteController.dispose();
+    _secondController.dispose();
   }
 }

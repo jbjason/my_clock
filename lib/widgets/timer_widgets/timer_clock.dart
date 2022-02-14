@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:my_clock/widgets/timer_widgets/white_button.dart';
 
 class TimerClock extends StatefulWidget {
-  const TimerClock({Key? key, required this.initDuration}) : super(key: key);
+  const TimerClock(
+      {Key? key, required this.initDuration, required this.changeTimerMode})
+      : super(key: key);
   final Duration initDuration;
+  final void Function() changeTimerMode;
   @override
   _TimerClockState createState() => _TimerClockState();
 }
@@ -21,10 +24,10 @@ class _TimerClockState extends State<TimerClock> {
     super.initState();
     duration = widget.initDuration;
     _totalTime = duration.inSeconds.toDouble();
-    _startWatchh();
+    _startWatch();
   }
 
-  void _startWatchh() {
+  void _startWatch() {
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (duration.inSeconds != 0) {
         setState(() => duration = Duration(seconds: duration.inSeconds - 1));
@@ -34,7 +37,7 @@ class _TimerClockState extends State<TimerClock> {
     });
   }
 
-  void _stopWatchh() {
+  void _stopWatch() {
     setState(() {
       _currentCountDown = duration;
       timer?.cancel();
@@ -42,52 +45,49 @@ class _TimerClockState extends State<TimerClock> {
     });
   }
 
-  void _resumeWatchh() {
+  void _resumeWatch() {
     setState(() {
       duration = _currentCountDown;
       flag = !flag;
     });
-    _startWatchh();
+    _startWatch();
+  }
+
+  void _cancelWatch() {
+    timer?.cancel();
+    widget.changeTimerMode();
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(child: buildStopWatch(duration)),
-        const SizedBox(height: 50),
-        Visibility(
-          visible: flag,
-          child: InkWell(
-            onTap: () => _stopWatchh(),
-            child: WhiteButton(isTrue: flag, text: 'Stop'),
-          ),
-        ),
-        Visibility(
-          visible: !flag,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                onTap: () => _resumeWatchh(),
-                child: WhiteButton(isTrue: flag, text: 'Resume'),
-              ),
-              InkWell(
-                onTap: () {
-                  if (mounted) {
-                    timer?.cancel();
-                    // Navigator.pop(context);
-                  }
-                },
-                child: WhiteButton(isTrue: flag, text: 'Reset'),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(child: buildStopWatch(duration)),
+          const SizedBox(height: 50),
+          if (flag)
+            InkWell(
+              onTap: () => _stopWatch(),
+              child: WhiteButton(isTrue: flag, text: 'Pause'),
+            ),
+          if (!flag)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  onTap: () => _resumeWatch(),
+                  child: WhiteButton(isTrue: flag, text: 'Resume'),
+                ),
+                InkWell(
+                  onTap: () => _cancelWatch(),
+                  child: WhiteButton(isTrue: flag, text: 'Cancel'),
+                ),
+              ],
+            ),
+        ],
+      ),
+    );
   }
 
   Widget buildStopWatch(Duration dur) => SizedBox(
