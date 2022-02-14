@@ -27,11 +27,13 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final value = (duration.inSeconds / 60);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        BuildStopWatch(duration: duration, val: duration.inSeconds / 60),
+        BuildStopWatch(duration: duration, val: value - value.toInt()),
+        const SizedBox(height: 50),
         if (!_flag)
           InkWell(
             onTap: () => _startWatch(),

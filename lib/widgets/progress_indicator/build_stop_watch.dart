@@ -49,6 +49,8 @@ class BuildStopWatch extends StatelessWidget {
   //   //for 120, (1- (120/120) )== 0  , for 119, ( 1-(119/120) )=>(0.992-1)=>0.008
   //   //for 118, (1- (118/120) )=>(1-0.983)=> 0.017  , for 117, (1-(117/120))=>(1-0.975)=>0.025
   //   // 1 is the destination for clockWise process
+  //  // **to continue process we need to return _currentSecond - _currentSecond.toInt() .
+  // // **for 0.5, 0.5-0 =.5 for 1.5, 1.5-1 =.5 for 1.7, 1.7-1 =.7 always having fruction value
   //   return _currentSecond;
   // }
 }
