@@ -19,9 +19,9 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
   bool _flag = false, _isStopped = true;
 
   void _startWatch() {
-    timer = Timer.periodic(const Duration(milliseconds: 100), (_) {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
       _flag = true;
-      setState(() => duration = Duration(microseconds: duration.inSeconds + 1));
+      setState(() => duration = Duration(seconds: duration.inSeconds + 1));
     });
   }
 
@@ -31,13 +31,13 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        BuildStopWatch(duration: duration, val: 1 / 1000),
+        BuildStopWatch(duration: duration, val: duration.inSeconds / 60),
         if (!_flag)
           InkWell(
             onTap: () => _startWatch(),
             child: const StartButtonBottom(),
           ),
-        if (_flag)
+        if (_flag && _isStopped)
           InkWell(
             onTap: () => _stopWatch(),
             child: const WhiteButton(text: 'Pause'),
@@ -80,6 +80,7 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
     timer?.cancel();
     setState(() {
       duration = const Duration(seconds: 0);
+      _flag = !_flag;
     });
   }
 }
