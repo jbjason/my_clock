@@ -8,18 +8,15 @@ class WhiteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-    width: 150,
-      duration: const Duration(milliseconds: 1500),
-      curve: Curves.easeInOut,
+    return Container(
+      width: 150,
       padding: EdgeInsets.all(isTrue ? 20 : 40.0),
       child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(fontSize: 14, letterSpacing: 1.2),
-          ),
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 14, letterSpacing: 1.2),
         ),
-  
+      ),
       decoration: BoxDecoration(
         color: Colors.grey[400],
         borderRadius: BorderRadius.circular(16),
