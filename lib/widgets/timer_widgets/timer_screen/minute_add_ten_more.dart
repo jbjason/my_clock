@@ -15,7 +15,7 @@ class MinuteAddTenMore extends StatelessWidget {
       height: 100,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.grey[700]!, width: 2),
+        border: Border.all(color: Colors.cyan[200]!, width: 2),
       ),
       child: TextButton(
         child: const Text('00:10:00'),
