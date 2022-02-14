@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class WhiteButton extends StatelessWidget {
-  const WhiteButton({Key? key, required this.text, required this.isTrue})
+  const WhiteButton({Key? key, required this.text})
       : super(key: key);
   final String text;
-  final bool isTrue;
 
   @override
   Widget build(BuildContext context) {

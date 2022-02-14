@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_clock/widgets/progress_indicator/build_stop_watch.dart';
-import 'package:my_clock/widgets/timer_widgets/countdown_screen/white_button.dart';
+import 'package:my_clock/widgets/timer_widgets/white_button.dart';
 
 class TimerClock extends StatefulWidget {
   const TimerClock(
@@ -67,14 +67,13 @@ class _TimerClockState extends State<TimerClock> {
         children: [
           BuildStopWatch(
             duration: duration,
-            totalTime: _totalTime,
             val: duration.inSeconds / _totalTime,
           ),
           const SizedBox(height: 50),
           if (flag)
             InkWell(
               onTap: () => _stopWatch(),
-              child: WhiteButton(isTrue: flag, text: 'Pause'),
+              child: const WhiteButton(text: 'Pause'),
             ),
           if (!flag)
             Row(
@@ -82,11 +81,11 @@ class _TimerClockState extends State<TimerClock> {
               children: [
                 InkWell(
                   onTap: () => _resumeWatch(),
-                  child: WhiteButton(isTrue: flag, text: 'Resume'),
+                  child: const WhiteButton(text: 'Resume'),
                 ),
                 InkWell(
                   onTap: () => _cancelWatch(),
-                  child: WhiteButton(isTrue: flag, text: 'Cancel'),
+                  child: const WhiteButton(text: 'Cancel'),
                 ),
               ],
             ),
@@ -95,4 +94,3 @@ class _TimerClockState extends State<TimerClock> {
     );
   }
 }
-
