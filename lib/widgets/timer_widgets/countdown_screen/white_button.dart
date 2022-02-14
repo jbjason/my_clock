@@ -10,7 +10,7 @@ class WhiteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 150,
-      padding: EdgeInsets.all(isTrue ? 20 : 40.0),
+      padding:const EdgeInsets.all( 40.0),
       child: Center(
         child: Text(
           text,
@@ -18,7 +18,7 @@ class WhiteButton extends StatelessWidget {
         ),
       ),
       decoration: BoxDecoration(
-        color: Colors.grey[400],
+        color: Colors.grey[300],
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(

@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:my_clock/widgets/timer_widgets/white_button.dart';
+import 'package:my_clock/widgets/timer_widgets/timer_screen/countdown_screen/white_button.dart';
 
 class TimerClock extends StatefulWidget {
   const TimerClock(
-      {Key? key, required this.initDuration, required this.changeTimerMode})
+      {Key? key, required this.initDuraion, required this.changeTimerMode})
       : super(key: key);
-  final Duration initDuration;
+  final Duration initDuraion;
   final void Function() changeTimerMode;
   @override
   _TimerClockState createState() => _TimerClockState();
@@ -22,7 +22,7 @@ class _TimerClockState extends State<TimerClock> {
   @override
   void initState() {
     super.initState();
-    duration = widget.initDuration;
+    duration = widget.initDuraion;
     _totalTime = duration.inSeconds.toDouble();
     _startWatch();
   }

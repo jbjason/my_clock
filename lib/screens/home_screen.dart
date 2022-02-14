@@ -3,7 +3,6 @@ import 'package:my_clock/screens/clock_screen.dart';
 import 'package:my_clock/screens/timer_screen.dart';
 import 'package:my_clock/widgets/home_widgets/my_Button.dart';
 import 'package:my_clock/widgets/home_widgets/tapped_button.dart';
-import 'package:my_clock/widgets/timer_widgets/timer_clock.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

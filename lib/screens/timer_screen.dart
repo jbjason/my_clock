@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_clock/widgets/timer_widgets/hours_titletext.dart';
-import 'package:my_clock/widgets/timer_widgets/minuteadda_ten.dart';
-import 'package:my_clock/widgets/timer_widgets/start_bottom_button.dart';
-import 'package:my_clock/widgets/timer_widgets/timer_clock.dart';
+import 'package:my_clock/widgets/timer_widgets/timer_screen/hours_titletext.dart';
+import 'package:my_clock/widgets/timer_widgets/timer_screen/minute_add_ten_more.dart';
+import 'package:my_clock/widgets/timer_widgets/timer_screen/start_bottom_button.dart';
+import 'package:my_clock/widgets/timer_widgets/countdown_screen/timer_clock.dart';
 
 class TimerScreen extends StatefulWidget {
   const TimerScreen({Key? key}) : super(key: key);
@@ -12,19 +12,14 @@ class TimerScreen extends StatefulWidget {
 }
 
 class _TimerScreenState extends State<TimerScreen> {
-  late FixedExtentScrollController _hourController;
-  late FixedExtentScrollController _minuteController;
-  late FixedExtentScrollController _secondController;
+  final FixedExtentScrollController _hourController =
+      FixedExtentScrollController(initialItem: 5);
+  final FixedExtentScrollController _minuteController =
+      FixedExtentScrollController(initialItem: 5);
+  final FixedExtentScrollController _secondController =
+      FixedExtentScrollController(initialItem: 5);
   int h = 5, m = 5, s = 5;
   bool _isTimerSet = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _hourController = FixedExtentScrollController(initialItem: h);
-    _minuteController = FixedExtentScrollController(initialItem: m);
-    _secondController = FixedExtentScrollController(initialItem: s);
-  }
 
   void changeTimerMode() {
     setState(() => _isTimerSet = !_isTimerSet);
@@ -35,7 +30,7 @@ class _TimerScreenState extends State<TimerScreen> {
     final size = MediaQuery.of(context).size;
     return _isTimerSet
         ? TimerClock(
-            initDuration: Duration(hours: h, minutes: m, seconds: s),
+            initDuraion: Duration(hours: h, minutes: m, seconds: s),
             changeTimerMode: changeTimerMode,
           )
         : Center(
