@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/hours_titletext.dart';
+import 'package:my_clock/widgets/timer_widgets/timer_screen/item_container.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/minute_add_ten_more.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/start_bottom_button.dart';
 import 'package:my_clock/widgets/timer_widgets/countdown_screen/timer_clock.dart';
@@ -97,52 +98,10 @@ class _TimerScreenState extends State<TimerScreen> {
         childDelegate: ListWheelChildBuilderDelegate(
           childCount: childCount,
           builder: (context, index) {
-            return _itemContainer(index, text);
+            return ItemContainer(
+                i: index, selectedText: text, h: h, m: m, s: s);
           },
         ),
-      ),
-    );
-  }
-
-  Widget _itemContainer(int i, String selectedText) {
-    return Container(
-      width: 100,
-      margin: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Center(
-        // for minutes & seconds using 0(prefix) where its lower than 10
-        child: Text(
-          (selectedText == 's' || selectedText == 'm') && i < 10
-              ? '0' + i.toString()
-              : i.toString(),
-          style: TextStyle(
-            // if selected index second hoy & secondIndex current ==i then grey[900]
-            color: selectedText == 's' && s == i ||
-                    selectedText == 'm' && m == i ||
-                    selectedText == 'h' && h == i
-                ? Colors.grey[800]
-                : Colors.grey[600],
-            fontSize: 30,
-            fontStyle: FontStyle.italic,
-          ),
-        ),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade500,
-            offset: const Offset(4, 4),
-            blurRadius: 15,
-            spreadRadius: 3,
-          ),
-          const BoxShadow(
-            color: Colors.white,
-            offset: Offset(-4, -4),
-            blurRadius: 15,
-            spreadRadius: 1,
-          ),
-        ],
       ),
     );
   }
