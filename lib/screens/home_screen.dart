@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_clock/screens/alarm_screen.dart';
 import 'package:my_clock/screens/clock_screen.dart';
 import 'package:my_clock/screens/stop_watch_screen.dart';
 import 'package:my_clock/screens/timer_screen.dart';
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const StopWatchScreen(),
+      body: const AlarmScreen(),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
