@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:my_clock/widgets/alarm_widgets/title_textField.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/item_container.dart';
+import 'package:my_clock/widgets/timer_widgets/white_button.dart';
 
 class AddAlarmWidget extends StatefulWidget {
   const AddAlarmWidget({Key? key}) : super(key: key);
@@ -9,13 +13,15 @@ class AddAlarmWidget extends StatefulWidget {
 }
 
 class _AddAlarmWidgetState extends State<AddAlarmWidget> {
-  int h = 0, m = 0, s = 0;
+  int h = 2, m = 2, s = 0;
   final FixedExtentScrollController _hourController =
-      FixedExtentScrollController(initialItem: 5);
+      FixedExtentScrollController(initialItem: 2);
   final FixedExtentScrollController _minuteController =
-      FixedExtentScrollController(initialItem: 5);
-  final day = DateTime.now().day;
-  final date = DateTime.now().weekday;
+      FixedExtentScrollController(initialItem: 2);
+  final _titleController = TextEditingController();
+  final String date = DateFormat('EEEE, d MMM').format(DateTime.now());
+  final List<String> weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -24,7 +30,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: size.height,
                 width: size.width,
                 child: Stack(
@@ -68,25 +74,76 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                     Positioned(
                       left: 0,
                       right: 0,
-                      top: size.height * .5+10,
-                      height: size.height * .5-10,
+                      top: size.height * .5 + 10,
                       child: Container(
+                        height: size.height * .47 ,
+                        padding: const EdgeInsets.only(left: 20, right: 20),
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(50),
                             topRight: Radius.circular(50),
                           ),
-                          color: Colors.grey[300],
+                          color: Colors.grey[200],
                         ),
-                        child: Column(children: [
-                          Padding(
-                            padding:const EdgeInsets.all(20),
-                            child: Row(children: [
-                               Text('Today : $day $date')
-                            ],))
-                        ],),
+                        child: Column(
+                          children: [
+                            // todays Date & Calender
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Today : $date',
+                                    style: TextStyle(color: Colors.grey[700]),
+                                  ),
+                                  IconButton(
+                                      icon: Icon(CupertinoIcons.calendar,
+                                          size: 30, color: Colors.grey[800]),
+                                      onPressed: () {})
+                                ],
+                              ),
+                            ),
+                            // weekDays
+                            SizedBox(
+                              height: 40,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: weekDays.length,
+                                itemBuilder: (context, index) => InkWell(
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 17, right: 17),
+                                    child: Text(weekDays[index],
+                                        style:
+                                            TextStyle(color: Colors.grey[800])),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // title textField
+                            TitleTextFormField(
+                                titleController: _titleController),
+                            const SizedBox(height: 40),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                InkWell(
+                                  child: const WhiteButton(text: 'Cancel'),
+                                  onTap: () {},
+                                ),
+                                InkWell(
+                                  child: const WhiteButton(text: 'Save'),
+                                  onTap: () {},
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      
                     ),
                   ],
                 ),
