@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_clock/widgets/alarm_widgets/hour_minutes_text.dart';
 import 'package:my_clock/widgets/alarm_widgets/title_textField.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/item_container.dart';
 import 'package:my_clock/widgets/timer_widgets/white_button.dart';
 
 class AddAlarmWidget extends StatefulWidget {
   const AddAlarmWidget({Key? key}) : super(key: key);
-
   @override
   _AddAlarmWidgetState createState() => _AddAlarmWidgetState();
 }
@@ -35,22 +35,15 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                 width: size.width,
                 child: Stack(
                   children: [
-                    Positioned(
+                    // only Hour Minute Top Text
+                    const Positioned(
                       top: 0,
                       left: 0,
                       right: 0,
                       height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text('Hour',
-                              style: TextStyle(color: Colors.grey[700]!)),
-                          Text('Minute',
-                              style: TextStyle(color: Colors.grey[700]!)),
-                        ],
-                      ),
+                      child: HourMinutesText(),
                     ),
+                    // ListWheel
                     Positioned(
                       top: 20,
                       left: 0,
@@ -71,12 +64,13 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                         ),
                       ),
                     ),
+                    // Tilte textField & time selection area
                     Positioned(
                       left: 0,
                       right: 0,
                       top: size.height * .5 + 10,
                       child: Container(
-                        height: size.height * .47 ,
+                        height: size.height * .47,
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.only(
