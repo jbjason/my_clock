@@ -7,7 +7,7 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Color(0xFFEBF3FE),
     systemNavigationBarIconBrightness: Brightness.dark, // navigation bar color
-    statusBarColor: Color.fromRGBO(235, 243, 254, 1), // status bar color
+    statusBarColor: Color.fromRGBO(235, 243, 254, 1),
   ));
   AwesomeNotifications().initialize(null, [
     NotificationChannel(

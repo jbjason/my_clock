@@ -20,7 +20,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
   final String currentDate = DateFormat('EEEE, d MMM').format(DateTime.now());
   final List<String> weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
   int h = DateTime.now().hour, m = DateTime.now().minute, s = 0;
-  int _selectedDay = DateTime.now().day;
+  int _selectedDay = DateTime.now().weekday;
   late DateTime selectedDateTIme;
 
   @override
@@ -85,7 +85,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                             topLeft: Radius.circular(50),
                             topRight: Radius.circular(50),
                           ),
-                          color: Colors.grey[300],
+                          color: Colors.grey[350],
                         ),
                         child: Column(
                           children: [
@@ -99,11 +99,11 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                                 children: [
                                   Text(
                                     'Today : $currentDate',
-                                    style: TextStyle(color: Colors.grey[700]),
+                                    style: TextStyle(color: Colors.grey[900]),
                                   ),
                                   IconButton(
                                       icon: Icon(CupertinoIcons.calendar,
-                                          size: 30, color: Colors.grey[800]),
+                                          size: 30, color: Colors.grey[900]),
                                       onPressed: () {})
                                 ],
                               ),
@@ -253,8 +253,8 @@ class WeekDaysList extends StatelessWidget {
       child: Text(weekDays[index],
           style: TextStyle(
             fontWeight:
-                _selectedDay == index ? FontWeight.normal : FontWeight.bold,
-            color: _selectedDay == index ? Colors.black : Colors.grey[700],
+                _selectedDay == index ?FontWeight.w900: FontWeight.w400 ,
+            color: _selectedDay == index ? Colors.grey[900] : Colors.grey[700],
           )),
     );
   }
