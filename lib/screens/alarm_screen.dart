@@ -44,7 +44,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: 2,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 15, right: 15, left: 15),

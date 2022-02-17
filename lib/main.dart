@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_clock/screens/home_screen.dart';
@@ -6,8 +7,18 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Color(0xFFEBF3FE),
     systemNavigationBarIconBrightness: Brightness.dark, // navigation bar color
-    statusBarColor: Color(0xFFEBF3FE), // status bar color
+    statusBarColor: Color.fromRGBO(235, 243, 254, 1), // status bar color
   ));
+  AwesomeNotifications().initialize(null, [
+    NotificationChannel(
+      channelKey: 'schedule_channel',
+      channelName: 'Scheduled Notifications',
+      channelDescription: 'Notification channel for schedule tests',
+      defaultColor: Colors.teal,
+      importance: NotificationImportance.High,
+      locked: true,
+    ),
+  ]);
   runApp(const MyApp());
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_clock/models/create_notification.dart';
 import 'package:my_clock/widgets/alarm_widgets/hour_minutes_text.dart';
 import 'package:my_clock/widgets/alarm_widgets/title_textField.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/item_container.dart';
@@ -13,14 +14,21 @@ class AddAlarmWidget extends StatefulWidget {
 }
 
 class _AddAlarmWidgetState extends State<AddAlarmWidget> {
-  int h = 2, m = 2, s = 0;
-  final FixedExtentScrollController _hourController =
-      FixedExtentScrollController(initialItem: 2);
-  final FixedExtentScrollController _minuteController =
-      FixedExtentScrollController(initialItem: 2);
+  late final FixedExtentScrollController _hourController;
+  late final FixedExtentScrollController _minuteController;
   final _titleController = TextEditingController();
-  final String date = DateFormat('EEEE, d MMM').format(DateTime.now());
+  final String currentDate = DateFormat('EEEE, d MMM').format(DateTime.now());
   final List<String> weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  int h = DateTime.now().hour, m = DateTime.now().minute, s = 0;
+  int _selectedDay = DateTime.now().day;
+  late DateTime selectedDateTIme;
+
+  @override
+  void initState() {
+    super.initState();
+    _hourController = FixedExtentScrollController(initialItem: h);
+    _minuteController = FixedExtentScrollController(initialItem: m);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +66,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             _listWheelScroll(size, _hourController, 23, 'h'),
-                            const Text(':'),
+                            const Text(':',),
                             _listWheelScroll(size, _minuteController, 59, 'm'),
                           ],
                         ),
@@ -77,7 +85,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                             topLeft: Radius.circular(50),
                             topRight: Radius.circular(50),
                           ),
-                          color: Colors.grey[200],
+                          color: Colors.grey[300],
                         ),
                         child: Column(
                           children: [
@@ -90,7 +98,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Today : $date',
+                                    'Today : $currentDate',
                                     style: TextStyle(color: Colors.grey[700]),
                                   ),
                                   IconButton(
@@ -100,21 +108,19 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                                 ],
                               ),
                             ),
-                            // weekDays
+                            // Select weekDays
                             SizedBox(
                               height: 40,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: weekDays.length,
                                 itemBuilder: (context, index) => InkWell(
-                                  onTap: () {},
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 17, right: 17),
-                                    child: Text(weekDays[index],
-                                        style:
-                                            TextStyle(color: Colors.grey[800])),
-                                  ),
+                                  // +1 cz as default Monday=1 ,Tu=2, 'We'=3, 'Th'=4, 'Fr'=5, 'Sa'=6, 'Su'=7
+                                  onTap: () => _selectedDay = index + 1,
+                                  child: WeekDaysList(
+                                      index: index,
+                                      weekDays: weekDays,
+                                      selectedDay: _selectedDay),
                                 ),
                               ),
                             ),
@@ -131,7 +137,33 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                                 ),
                                 InkWell(
                                   child: const WhiteButton(text: 'Save'),
-                                  onTap: () {},
+                                  onTap: () async {
+                                    final titleText =
+                                        _titleController.text.trim();
+                                    if (titleText.isNotEmpty) {
+                                      final int id = createUniqueId();
+                                      await createScheduleNotification(
+                                        id,
+                                        titleText,
+                                        NotificationWeekAndTime(
+                                          dayOfTheWeek: _selectedDay,
+                                          dateTime: DateTime(
+                                            DateTime.now().year,
+                                            DateTime.now().month,
+                                            _selectedDay,
+                                            h,
+                                            m,
+                                            s,
+                                            0, //milisec
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                        ..hideCurrentSnackBar()
+                                        ..showSnackBar(snackBar);
+                                    }
+                                  },
                                 ),
                               ],
                             ),
@@ -159,7 +191,6 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
         diameterRatio: 1.8,
         useMagnifier: true,
         magnification: 1.1,
-        // offAxisFraction: 1,
         onSelectedItemChanged: (value) {
           setState(() => text == 'm' ? m = value : h = value);
         },
@@ -172,6 +203,59 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
           },
         ),
       ),
+    );
+  }
+
+  final snackBar = SnackBar(
+    backgroundColor: Colors.transparent,
+    duration: const Duration(seconds: 2),
+    behavior: SnackBarBehavior.floating,
+    shape: const StadiumBorder(),
+    content: Container(
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        gradient: LinearGradient(colors: [
+          Colors.grey[800]!,
+          Colors.grey,
+          Colors.grey[300]!,
+        ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+      ),
+      child: const Text(
+        'Title text can\'t be Empty..!',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+            letterSpacing: 1.5,
+            fontWeight: FontWeight.w600),
+      ),
+    ),
+  );
+}
+
+class WeekDaysList extends StatelessWidget {
+  const WeekDaysList({
+    Key? key,
+    required this.index,
+    required this.weekDays,
+    required int selectedDay,
+  })  : _selectedDay = selectedDay,
+        super(key: key);
+
+  final List<String> weekDays;
+  final int _selectedDay, index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 17, right: 17),
+      child: Text(weekDays[index],
+          style: TextStyle(
+            fontWeight:
+                _selectedDay == index ? FontWeight.normal : FontWeight.bold,
+            color: _selectedDay == index ? Colors.black : Colors.grey[700],
+          )),
     );
   }
 }
