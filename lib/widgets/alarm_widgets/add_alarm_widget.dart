@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:my_clock/models/create_notification.dart';
 import 'package:my_clock/widgets/alarm_widgets/hour_minutes_text.dart';
@@ -21,7 +22,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
   final List<String> weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
   int h = DateTime.now().hour, m = DateTime.now().minute, s = 0;
   int _selectedDay = DateTime.now().weekday;
-  late DateTime selectedDateTIme;
+  DateTime selectedDateTIme = DateTime.now();
 
   @override
   void initState() {
@@ -33,149 +34,150 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: size.height,
-                width: size.width,
-                child: Stack(
-                  children: [
-                    // only Hour Minute Top Text
-                    const Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: 40,
-                      child: HourMinutesText(),
-                    ),
-                    // ListWheel
-                    Positioned(
-                      top: 20,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: size.height * .55,
-                        // width: size.width,
-                        padding: EdgeInsets.only(
-                            bottom: size.height * .05, left: 20, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            _listWheelScroll(size, _hourController, 23, 'h'),
-                            const Text(':',),
-                            _listWheelScroll(size, _minuteController, 59, 'm'),
-                          ],
-                        ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: size.height,
+              width: size.width,
+              child: Stack(
+                children: [
+                  // only Hour Minute Top Text
+                  const Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 40,
+                    child: HourMinutesText(),
+                  ),
+                  // ListWheel
+                  Positioned(
+                    top: 20,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: size.height * .55,
+                      // width: size.width,
+                      padding: EdgeInsets.only(
+                          bottom: size.height * .05, left: 20, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          _listWheelScroll(size, _hourController, 23, 'h'),
+                          const Text(
+                            ':',
+                          ),
+                          _listWheelScroll(size, _minuteController, 59, 'm'),
+                        ],
                       ),
                     ),
-                    // Tilte textField & time selection area
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      top: size.height * .5 + 10,
-                      child: Container(
-                        height: size.height * .47,
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(50),
-                          ),
-                          color: Colors.grey[350],
+                  ),
+                  // Tilte textField & time selection area
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: size.height * .5 + 10,
+                    child: Container(
+                      height: size.height * .47,
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          topRight: Radius.circular(50),
                         ),
-                        child: Column(
-                          children: [
-                            // todays Date & Calender
-                            Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Today : $currentDate',
-                                    style: TextStyle(color: Colors.grey[900]),
-                                  ),
-                                  IconButton(
-                                      icon: Icon(CupertinoIcons.calendar,
-                                          size: 30, color: Colors.grey[900]),
-                                      onPressed: () {})
-                                ],
-                              ),
-                            ),
-                            // Select weekDays
-                            SizedBox(
-                              height: 40,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: weekDays.length,
-                                itemBuilder: (context, index) => InkWell(
-                                  // +1 cz as default Monday=1 ,Tu=2, 'We'=3, 'Th'=4, 'Fr'=5, 'Sa'=6, 'Su'=7
-                                  onTap: () => _selectedDay = index + 1,
-                                  child: WeekDaysList(
-                                      index: index,
-                                      weekDays: weekDays,
-                                      selectedDay: _selectedDay),
-                                ),
-                              ),
-                            ),
-                            // title textField
-                            TitleTextFormField(
-                                titleController: _titleController),
-                            const SizedBox(height: 40),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        color: Colors.grey[350],
+                      ),
+                      child: Column(
+                        children: [
+                          // todays Date & Calender
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                InkWell(
-                                  child: const WhiteButton(text: 'Cancel'),
-                                  onTap: () {},
+                                Text(
+                                  'Today : $currentDate',
+                                  style: TextStyle(color: Colors.grey[900]),
                                 ),
-                                InkWell(
-                                  child: const WhiteButton(text: 'Save'),
-                                  onTap: () async {
-                                    final titleText =
-                                        _titleController.text.trim();
-                                    if (titleText.isNotEmpty) {
-                                      final int id = createUniqueId();
-                                      await createScheduleNotification(
-                                        id,
-                                        titleText,
-                                        NotificationWeekAndTime(
-                                          dayOfTheWeek: _selectedDay,
-                                          dateTime: DateTime(
-                                            DateTime.now().year,
-                                            DateTime.now().month,
-                                            _selectedDay,
-                                            h,
-                                            m,
-                                            s,
-                                            0, //milisec
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                        ..hideCurrentSnackBar()
-                                        ..showSnackBar(snackBar);
-                                    }
-                                  },
+                                IconButton(
+                                  icon: Icon(CupertinoIcons.calendar,
+                                      size: 30, color: Colors.grey[900]),
+                                  onPressed: () => _chooseDate(context),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                          // Select weekDays
+                          SizedBox(
+                            height: 40,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: weekDays.length,
+                              itemBuilder: (context, index) => InkWell(
+                                // +1 cz as default Monday=1 ,Tu=2, 'We'=3, 'Th'=4, 'Fr'=5, 'Sa'=6, 'Su'=7
+                                onTap: () =>
+                                    setState(() => _selectedDay = index),
+                                child: WeekDaysList(
+                                    index: index,
+                                    weekDays: weekDays,
+                                    selectedDay: _selectedDay),
+                              ),
+                            ),
+                          ),
+                          // title textField
+                          TitleTextFormField(titleController: _titleController),
+                          const SizedBox(height: 40),
+                          // cancel & save button
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              InkWell(
+                                child: const WhiteButton(text: 'Cancel'),
+                                onTap: () {},
+                              ),
+                              InkWell(
+                                child: const WhiteButton(text: 'Save'),
+                                onTap: () async {
+                                  final titleText =
+                                      _titleController.text.trim();
+                                  if (titleText.isNotEmpty) {
+                                    final int id = createUniqueId();
+                                    await createScheduleNotification(
+                                      id,
+                                      titleText,
+                                      NotificationWeekAndTime(
+                                        dayOfTheWeek: _selectedDay + 1,
+                                        dateTime: DateTime(
+                                          selectedDateTIme.year,
+                                          selectedDateTIme.month,
+                                          _selectedDay,
+                                          h,
+                                          m,
+                                          s,
+                                          0, //milisec
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -204,6 +206,46 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
         ),
       ),
     );
+  }
+
+  void _chooseDate(BuildContext context) async {
+    final date = DateTime.now();
+    DateTime? newDateTime = await showRoundedDatePicker(
+      context: context,
+      height: 340,
+      borderRadius: 35,
+      initialDate: date,
+      firstDate: DateTime(date.year),
+      lastDate: DateTime(date.year + 1),
+      theme: ThemeData.dark(),
+      imageHeader: const AssetImage('assets/3.jpg'),
+      description: 'Chose your prefered date ..',
+    );
+    if (newDateTime != null) {
+      final monthDays = newDateTime.subtract(const Duration(days: 1));
+
+      if (newDateTime.year > date.year ||
+          newDateTime.month > date.month ||
+          newDateTime.month == date.month && monthDays.day >= date.day - 1) {
+        setState(() => selectedDateTIme = newDateTime);
+      } else {
+        showDialog(
+          context: context,
+          builder: (c) => CupertinoAlertDialog(
+            title: const Text(
+                "This date cannot be selected. This Day passed already !"),
+            actions: [
+              CupertinoDialogAction(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          ),
+        );
+      }
+    }
   }
 
   final snackBar = SnackBar(
@@ -253,7 +295,7 @@ class WeekDaysList extends StatelessWidget {
       child: Text(weekDays[index],
           style: TextStyle(
             fontWeight:
-                _selectedDay == index ?FontWeight.w900: FontWeight.w400 ,
+                _selectedDay == index ? FontWeight.w900 : FontWeight.w400,
             color: _selectedDay == index ? Colors.grey[900] : Colors.grey[700],
           )),
     );
