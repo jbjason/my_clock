@@ -32,11 +32,11 @@ Future<void> createScheduleNotification(
     ],
     schedule: NotificationCalendar(
       repeats: true,
+      // year: notificationWeekAndTime.dateTime.year,
+      // month: notificationWeekAndTime.dateTime.month,
       weekday: notificationWeekAndTime.dayOfTheWeek,
       hour: notificationWeekAndTime.dateTime.hour,
       minute: notificationWeekAndTime.dateTime.minute,
-      year: notificationWeekAndTime.dateTime.year,
-      month: notificationWeekAndTime.dateTime.month,
       second: notificationWeekAndTime.dateTime.second,
       millisecond: notificationWeekAndTime.dateTime.microsecond,
     ),

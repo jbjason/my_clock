@@ -15,7 +15,9 @@ class _ClockScreenState extends State<ClockScreen> {
   void initState() {
     super.initState();
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {});
+      if(mounted){
+        setState(() {});
+      }
     });
   }
 

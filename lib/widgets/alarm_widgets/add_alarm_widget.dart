@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
@@ -29,6 +30,20 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
     super.initState();
     _hourController = FixedExtentScrollController(initialItem: h);
     _minuteController = FixedExtentScrollController(initialItem: m);
+    AwesomeNotifications().createdStream.listen((notification) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text('Notification Created on ${notification.channelKey}'),
+          ),
+        );
+    });
+  }
+  @override
+  void dispose() {
+    AwesomeNotifications().createdSink.close();
+    super.dispose();
   }
 
   @override
@@ -119,7 +134,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                               itemBuilder: (context, index) => InkWell(
                                 // +1 cz as default Monday=1 ,Tu=2, 'We'=3, 'Th'=4, 'Fr'=5, 'Sa'=6, 'Su'=7
                                 onTap: () =>
-                                    setState(() => _selectedDay = index),
+                                    setState(() => _selectedDay = index+1),
                                 child: WeekDaysList(
                                     index: index,
                                     weekDays: weekDays,
@@ -149,11 +164,11 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                                       id,
                                       titleText,
                                       NotificationWeekAndTime(
-                                        dayOfTheWeek: _selectedDay + 1,
+                                        dayOfTheWeek: _selectedDay ,
                                         dateTime: DateTime(
                                           selectedDateTIme.year,
                                           selectedDateTIme.month,
-                                          _selectedDay,
+                                          selectedDateTIme.day,
                                           h,
                                           m,
                                           s,
@@ -200,8 +215,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
         childDelegate: ListWheelChildBuilderDelegate(
           childCount: childCount,
           builder: (context, index) {
-            return WheelItem(
-                i: index, selectedText: text, h: h, m: m, s: s);
+            return WheelItem(i: index, selectedText: text, h: h, m: m, s: s);
           },
         ),
       ),
@@ -295,8 +309,8 @@ class WeekDaysList extends StatelessWidget {
       child: Text(weekDays[index],
           style: TextStyle(
             fontWeight:
-                _selectedDay == index ? FontWeight.w900 : FontWeight.w400,
-            color: _selectedDay == index ? Colors.grey[900] : Colors.grey[700],
+                _selectedDay-1 == index ? FontWeight.w900 : FontWeight.w400,
+            color: _selectedDay-1 == index ? Colors.grey[900] : Colors.grey[700],
           )),
     );
   }
