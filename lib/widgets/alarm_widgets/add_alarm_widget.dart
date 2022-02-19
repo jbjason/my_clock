@@ -65,11 +65,11 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          _listWheelScroll(size, _hourController, 23, 'h'),
+                          _listWheelScroll(size, _hourController, 24, 'h'),
                           const Text(
                             ':',
                           ),
-                          _listWheelScroll(size, _minuteController, 59, 'm'),
+                          _listWheelScroll(size, _minuteController, 60, 'm'),
                         ],
                       ),
                     ),

@@ -16,6 +16,7 @@ void main() {
       channelDescription: 'Notification channel for schedule tests',
       defaultColor: Colors.teal,
       importance: NotificationImportance.High,
+      locked: true,
     ),
   ]);
   runApp(const MyApp());
