@@ -50,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: _selectedIndex == 1
                       ? TappedButton(
                           widget: Image.asset(
-                          'assets/clock32.png',
+                          'assets/alarm48.png',
                           fit: BoxFit.cover,
                         ))
                       : MyButton(
                           widget: Image.asset(
-                          'assets/clock32.png',
+                          'assets/alarm48.png',
                           fit: BoxFit.cover,
                         ))),
             ),
@@ -65,12 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: _selectedIndex == 2
                       ? TappedButton(
                           widget: Image.asset(
-                          'assets/clock148.png',
+                          'assets/stopwatch48.png',
                           fit: BoxFit.cover,
                         ))
                       : MyButton(
                           widget: Image.asset(
-                          'assets/clock148.png',
+                          'assets/stopwatch48.png',
                           fit: BoxFit.cover,
                         ))),
             ),
@@ -80,12 +80,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: _selectedIndex == 3
                       ? TappedButton(
                           widget: Image.asset(
-                          'assets/clock48.png',
+                          'assets/timer48.png',
                           fit: BoxFit.cover,
                         ))
                       : MyButton(
                           widget: Image.asset(
-                          'assets/clock48.png',
+                          'assets/timer48.png',
                           fit: BoxFit.cover,
                         ))),
             ),
