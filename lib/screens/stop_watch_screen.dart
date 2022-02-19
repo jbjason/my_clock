@@ -1,9 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:my_clock/models/lap_item.dart';
 import 'package:my_clock/widgets/progress_indicator/build_stop_watch.dart';
 import 'package:my_clock/widgets/timer_widgets/white_button.dart';
-import 'package:my_clock/widgets/timer_widgets/timer_screen/start_bottom_button.dart';
 
 class StopWatchScreen extends StatefulWidget {
   const StopWatchScreen({Key? key}) : super(key: key);
@@ -13,77 +12,135 @@ class StopWatchScreen extends StatefulWidget {
 }
 
 class _StopWatchScreenState extends State<StopWatchScreen> {
-  Timer? timer;
-  Duration duration = const Duration(seconds: 0);
   var _currentCountDown = const Duration(minutes: 0);
-  bool _flag = false, _isStopped = true;
+  Duration duration = const Duration(), d = const Duration();
+  bool _isStarted = false, _isStopped = false;
+  final List<LapItem> lapList = [];
+  Timer? timer;
 
   void _startWatch() {
+    toggleButton();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      _flag = true;
-      setState(() => duration = Duration(seconds: duration.inSeconds + 1));
+      if (mounted) {
+        setState(() => duration = Duration(seconds: duration.inSeconds + 1));
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final value = (duration.inSeconds / 60);
+    final size = MediaQuery.of(context).size;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BuildStopWatch(duration: duration, val: value - value.toInt()),
+          const SizedBox(height: 20),
+          BuildStopWatch(
+            duration: duration,
+            val: value - value.toInt(),
+            size: size,
+          ),
           const SizedBox(height: 50),
-          if (!_flag)
-            InkWell(
-              onTap: () => _startWatch(),
-              child: const StartButtonBottom(),
-            ),
-          if (_flag && _isStopped)
-            InkWell(
-              onTap: () => _stopWatch(),
-              child: const WhiteButton(text: 'Pause'),
-            ),
-          if (_flag && !_isStopped)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+          SizedBox(
+            height: size.height * .2,
+            child: Column(
               children: [
-                InkWell(
-                  onTap: () => _resumeWatch(),
-                  child: const WhiteButton(text: 'Resume'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: const [
+                    Text('Lap', style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text('Lap Time',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text('Overall Time',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ],
                 ),
-                InkWell(
-                  onTap: () => _cancelWatch(),
-                  child: const WhiteButton(text: 'Cancel'),
+                Divider(color: Colors.grey.withOpacity(0.5), thickness: 1.5),
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, i) {
+                      return Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(i.toString()),
+                            Text(_formatDuration(lapList[i].lapTime)),
+                            Text(_formatDuration(lapList[i].overallTime)),
+                          ],
+                        ),
+                      );
+                    },
+                    itemCount: lapList.length,
+                  ),
                 ),
               ],
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _isStarted
+                  ? InkWell(
+                      onTap: !_isStopped ? _currentLaptime : _resetWatch,
+                      child:
+                          WhiteButton(text: !_isStopped ? 'LapTime' : 'Reset'),
+                    )
+                  : Container(),
+              !_isStarted
+                  ? InkWell(
+                      onTap: _startWatch,
+                      child: const WhiteButton(text: 'Start'),
+                    )
+                  : InkWell(
+                      onTap: _isStopped ? _resumeWatch : _stopWatch,
+                      child: WhiteButton(text: _isStopped ? 'Resume' : 'Stop'),
+                    ),
+            ],
+          ),
         ],
       ),
     );
   }
 
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+  }
+
+  void toggleButton() {
+    setState(() {
+      _isStarted = !_isStarted;
+    });
+  }
+
   void _stopWatch() {
     setState(() {
+      _isStopped = !_isStopped;
       _currentCountDown = duration;
       timer?.cancel();
-      _isStopped = !_isStopped;
     });
   }
 
   void _resumeWatch() {
-    setState(() {
-      duration = _currentCountDown;
-      _isStopped = !_isStopped;
-    });
+    toggleButton();
+    setState(() => duration = _currentCountDown);
     _startWatch();
   }
 
-  void _cancelWatch() {
-    timer?.cancel();
+  void _resetWatch() {
+    toggleButton();
     setState(() {
-      duration = const Duration(seconds: 0);
-      _flag = !_flag;
+      duration = const Duration();
+      timer?.cancel();
     });
+  }
+
+  void _currentLaptime() {
+    d = duration - d;
+    lapList.add(LapItem(lapTime: d, overallTime: duration));
   }
 }

@@ -30,16 +30,8 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
     super.initState();
     _hourController = FixedExtentScrollController(initialItem: h);
     _minuteController = FixedExtentScrollController(initialItem: m);
-    AwesomeNotifications().createdStream.listen((notification) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text('Notification Created on ${notification.channelKey}'),
-          ),
-        );
-    });
   }
+
   @override
   void dispose() {
     AwesomeNotifications().createdSink.close();
@@ -134,7 +126,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                               itemBuilder: (context, index) => InkWell(
                                 // +1 cz as default Monday=1 ,Tu=2, 'We'=3, 'Th'=4, 'Fr'=5, 'Sa'=6, 'Su'=7
                                 onTap: () =>
-                                    setState(() => _selectedDay = index+1),
+                                    setState(() => _selectedDay = index + 1),
                                 child: WeekDaysList(
                                     index: index,
                                     weekDays: weekDays,
@@ -151,7 +143,9 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                             children: [
                               InkWell(
                                 child: const WhiteButton(text: 'Cancel'),
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
                               ),
                               InkWell(
                                 child: const WhiteButton(text: 'Save'),
@@ -164,7 +158,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                                       id,
                                       titleText,
                                       NotificationWeekAndTime(
-                                        dayOfTheWeek: _selectedDay ,
+                                        dayOfTheWeek: _selectedDay,
                                         dateTime: DateTime(
                                           selectedDateTIme.year,
                                           selectedDateTIme.month,
@@ -176,6 +170,14 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                                         ),
                                       ),
                                     );
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text('Alarm Has been Created'),
+                                        ),
+                                      );
                                   } else {
                                     ScaffoldMessenger.of(context)
                                       ..hideCurrentSnackBar()
@@ -309,8 +311,9 @@ class WeekDaysList extends StatelessWidget {
       child: Text(weekDays[index],
           style: TextStyle(
             fontWeight:
-                _selectedDay-1 == index ? FontWeight.w900 : FontWeight.w400,
-            color: _selectedDay-1 == index ? Colors.grey[900] : Colors.grey[700],
+                _selectedDay - 1 == index ? FontWeight.w900 : FontWeight.w400,
+            color:
+                _selectedDay - 1 == index ? Colors.grey[900] : Colors.grey[700],
           )),
     );
   }

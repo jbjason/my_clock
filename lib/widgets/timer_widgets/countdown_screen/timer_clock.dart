@@ -31,36 +31,18 @@ class _TimerClockState extends State<TimerClock> {
   void _startWatch() {
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (duration.inSeconds != 0) {
-        setState(() => duration = Duration(seconds: duration.inSeconds - 1));
+        if (mounted) {
+          setState(() => duration = Duration(seconds: duration.inSeconds - 1));
+        }
       } else {
         timer!.cancel();
       }
     });
   }
 
-  void _stopWatch() {
-    setState(() {
-      _currentCountDown = duration;
-      timer?.cancel();
-      flag = !flag;
-    });
-  }
-
-  void _resumeWatch() {
-    setState(() {
-      duration = _currentCountDown;
-      flag = !flag;
-    });
-    _startWatch();
-  }
-
-  void _cancelWatch() {
-    timer?.cancel();
-    widget.changeTimerMode();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -68,6 +50,7 @@ class _TimerClockState extends State<TimerClock> {
           BuildStopWatch(
             duration: duration,
             val: duration.inSeconds / _totalTime,
+            size: size,
           ),
           const SizedBox(height: 50),
           if (flag)
@@ -92,5 +75,32 @@ class _TimerClockState extends State<TimerClock> {
         ],
       ),
     );
+  }
+
+  void _stopWatch() {
+    setState(() {
+      _currentCountDown = duration;
+      timer?.cancel();
+      flag = !flag;
+    });
+  }
+
+  void _resumeWatch() {
+    setState(() {
+      duration = _currentCountDown;
+      flag = !flag;
+    });
+    _startWatch();
+  }
+
+  void _cancelWatch() {
+    timer?.cancel();
+    widget.changeTimerMode();
+  }
+
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
   }
 }

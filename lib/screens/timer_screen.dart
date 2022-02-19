@@ -64,7 +64,7 @@ class _TimerScreenState extends State<TimerScreen> {
                   // start button
                   InkWell(
                     onTap: () => changeTimerMode(),
-                    child: const StartButtonBottom(),
+                    child: const StartButtonBottom(text: 'Start'),
                   ),
                 ],
               ),
@@ -98,8 +98,7 @@ class _TimerScreenState extends State<TimerScreen> {
         childDelegate: ListWheelChildBuilderDelegate(
           childCount: childCount,
           builder: (context, index) {
-            return WheelItem(
-                i: index, selectedText: text, h: h, m: m, s: s);
+            return WheelItem(i: index, selectedText: text, h: h, m: m, s: s);
           },
         ),
       ),

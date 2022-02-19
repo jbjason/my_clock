@@ -15,7 +15,7 @@ class WheelItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 100,
-      margin: const EdgeInsets.only(top: 10, bottom: 10),
+      margin: const EdgeInsets.only(top: 8, bottom: 8),
       child: Center(
         // for minutes & seconds using 0(prefix) where its lower than 10
         child: Text(

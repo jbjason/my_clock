@@ -5,15 +5,17 @@ class BuildStopWatch extends StatelessWidget {
   const BuildStopWatch(
       {Key? key,
       required this.duration,
-      required this.val})
+      required this.val,
+      required this.size})
       : super(key: key);
   final Duration duration;
   final double val;
+  final Size size;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 350,
-      height: 350,
+      width: size.height *.4,
+      height: size.height *.4,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -23,7 +25,7 @@ class BuildStopWatch extends StatelessWidget {
             value: val,
             valueColor: const AlwaysStoppedAnimation(Color(0xFFB3E5FC)),
             strokeWidth: 12,
-            backgroundColor: Colors.lightBlue[50],
+            backgroundColor: Colors.lightBlue[100],
           ),
           // Current time ,situated inside of the ProgressIndicator
           Center(child: BuildTime(duration: duration)),

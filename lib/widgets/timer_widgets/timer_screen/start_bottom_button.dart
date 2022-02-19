@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
 class StartButtonBottom extends StatelessWidget {
-  const StartButtonBottom({
-    Key? key,
-  }) : super(key: key);
-
+  const StartButtonBottom({Key? key, required this.text}) : super(key: key);
+  final String text;
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: const Text(
-        'Start',
+      child: Text(
+        text,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           letterSpacing: 1.4,
