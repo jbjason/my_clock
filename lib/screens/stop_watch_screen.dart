@@ -28,37 +28,38 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
   @override
   Widget build(BuildContext context) {
     final value = (duration.inSeconds / 60);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        BuildStopWatch(duration: duration, val: value - value.toInt()),
-        const SizedBox(height: 50),
-        if (!_flag)
-          InkWell(
-            onTap: () => _startWatch(),
-            child: const StartButtonBottom(),
-          ),
-        if (_flag && _isStopped)
-          InkWell(
-            onTap: () => _stopWatch(),
-            child: const WhiteButton(text: 'Pause'),
-          ),
-        if (_flag && !_isStopped)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                onTap: () => _resumeWatch(),
-                child: const WhiteButton(text: 'Resume'),
-              ),
-              InkWell(
-                onTap: () => _cancelWatch(),
-                child: const WhiteButton(text: 'Cancel'),
-              ),
-            ],
-          ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          BuildStopWatch(duration: duration, val: value - value.toInt()),
+          const SizedBox(height: 50),
+          if (!_flag)
+            InkWell(
+              onTap: () => _startWatch(),
+              child: const StartButtonBottom(),
+            ),
+          if (_flag && _isStopped)
+            InkWell(
+              onTap: () => _stopWatch(),
+              child: const WhiteButton(text: 'Pause'),
+            ),
+          if (_flag && !_isStopped)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  onTap: () => _resumeWatch(),
+                  child: const WhiteButton(text: 'Resume'),
+                ),
+                InkWell(
+                  onTap: () => _cancelWatch(),
+                  child: const WhiteButton(text: 'Cancel'),
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 
