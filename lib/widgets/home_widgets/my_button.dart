@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
-  const MyButton({Key? key, required this.icon}) : super(key: key);
-  final IconData icon;
+  const MyButton({Key? key, required this.widget}) : super(key: key);
+  final Widget widget;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4),
       child: Container(
-        padding: const EdgeInsets.all(20),
-        child: Icon(
-          icon,
-          size: 37,
-          color: Colors.grey[800],
-        ),
+        padding: const EdgeInsets.all(12),
+        child:Container(
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: widget,
+          ),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: const Color(0xFFEBF3FE),

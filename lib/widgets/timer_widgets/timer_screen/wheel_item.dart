@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ItemContainer extends StatelessWidget {
-  const ItemContainer(
+class WheelItem extends StatelessWidget {
+  const WheelItem(
       {Key? key,
       required this.i,
       required this.selectedText,

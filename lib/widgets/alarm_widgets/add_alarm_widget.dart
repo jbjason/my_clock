@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:my_clock/models/create_notification.dart';
 import 'package:my_clock/widgets/alarm_widgets/hour_minutes_text.dart';
 import 'package:my_clock/widgets/alarm_widgets/title_textField.dart';
-import 'package:my_clock/widgets/timer_widgets/timer_screen/item_container.dart';
+import 'package:my_clock/widgets/timer_widgets/timer_screen/wheel_item.dart';
 import 'package:my_clock/widgets/timer_widgets/white_button.dart';
 
 class AddAlarmWidget extends StatefulWidget {
@@ -200,7 +200,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
         childDelegate: ListWheelChildBuilderDelegate(
           childCount: childCount,
           builder: (context, index) {
-            return ItemContainer(
+            return WheelItem(
                 i: index, selectedText: text, h: h, m: m, s: s);
           },
         ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TappedButton extends StatelessWidget {
-  const TappedButton({Key? key, required this.icon}) : super(key: key);
+  const TappedButton({Key? key, required this.widget}) : super(key: key);
 
-  final IconData icon;
+  final Widget widget;
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +12,10 @@ class TappedButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(5),
         child: Container(
-          padding: const EdgeInsets.all(20),
-          child: Icon(
-            icon,
-            size: 35,
-            color: Colors.grey[700],
+          padding: const EdgeInsets.all(13),
+          child: Container(
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: widget,
           ),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
