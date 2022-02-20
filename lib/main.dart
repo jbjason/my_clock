@@ -17,6 +17,8 @@ void main() {
       defaultColor: Colors.teal,
       importance: NotificationImportance.High,
       locked: true,
+      soundSource: 'resource://raw/res_custom_notification',
+      channelShowBadge: true,
     ),
   ]);
   runApp(const MyApp());

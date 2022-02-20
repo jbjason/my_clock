@@ -33,12 +33,6 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
   }
 
   @override
-  void dispose() {
-    AwesomeNotifications().createdSink.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
