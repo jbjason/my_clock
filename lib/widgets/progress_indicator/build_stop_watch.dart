@@ -3,10 +3,7 @@ import 'package:my_clock/widgets/progress_indicator/build_time.dart';
 
 class BuildStopWatch extends StatelessWidget {
   const BuildStopWatch(
-      {Key? key,
-      required this.duration,
-      required this.val,
-      required this.size})
+      {Key? key, required this.duration, required this.val, required this.size})
       : super(key: key);
   final Duration duration;
   final double val;
@@ -14,8 +11,8 @@ class BuildStopWatch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size.height *.4,
-      height: size.height *.4,
+      width: size.height * .4,
+      height: size.height * .4,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -23,9 +20,9 @@ class BuildStopWatch extends StatelessWidget {
             // Always takes fruction values like .1 .2 .3 .4 .5
             // value: _setSecond(duration),
             value: val,
-            valueColor: const AlwaysStoppedAnimation(Color(0xFFB3E5FC)),
+            valueColor: const AlwaysStoppedAnimation(Color(0xFFD6D6D6)),
             strokeWidth: 12,
-            backgroundColor: Colors.lightBlue[100],
+            backgroundColor: const Color(0xFFEEEEEE),
           ),
           // Current time ,situated inside of the ProgressIndicator
           Center(child: BuildTime(duration: duration)),

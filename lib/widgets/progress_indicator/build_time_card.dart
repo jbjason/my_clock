@@ -7,23 +7,25 @@ class BuildTimeCard extends StatelessWidget {
   final String header;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.lightBlue[100],
-            borderRadius: BorderRadius.circular(20),
+    return FittedBox(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color:   Colors.grey[350],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              time,
+              style: const TextStyle(color: Colors.black, fontSize: 30),
+            ),
           ),
-          child: Text(
-            time,
-            style: const TextStyle(color: Colors.black, fontSize: 30),
-          ),
-        ),
-        const SizedBox(height: 15),
-        Text(header),
-      ],
+          const SizedBox(height: 15),
+          Text(header),
+        ],
+      ),
     );
   }
 }

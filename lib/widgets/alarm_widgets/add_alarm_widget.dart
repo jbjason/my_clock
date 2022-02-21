@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
@@ -6,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:my_clock/models/create_notification.dart';
 import 'package:my_clock/widgets/alarm_widgets/hour_minutes_text.dart';
 import 'package:my_clock/widgets/alarm_widgets/title_textField.dart';
+import 'package:my_clock/widgets/alarm_widgets/weekdays_list.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/wheel_item.dart';
 import 'package:my_clock/widgets/timer_widgets/white_button.dart';
 
@@ -79,9 +79,9 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                   Positioned(
                     left: 0,
                     right: 0,
-                    top: size.height * .5 + 10,
+                    top: size.height * .5,
                     child: Container(
-                      height: size.height * .47,
+                      height: size.height * .45,
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(
@@ -284,31 +284,4 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
       ),
     ),
   );
-}
-
-class WeekDaysList extends StatelessWidget {
-  const WeekDaysList({
-    Key? key,
-    required this.index,
-    required this.weekDays,
-    required int selectedDay,
-  })  : _selectedDay = selectedDay,
-        super(key: key);
-
-  final List<String> weekDays;
-  final int _selectedDay, index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 17, right: 17),
-      child: Text(weekDays[index],
-          style: TextStyle(
-            fontWeight:
-                _selectedDay - 1 == index ? FontWeight.w900 : FontWeight.w400,
-            color:
-                _selectedDay - 1 == index ? Colors.grey[900] : Colors.grey[700],
-          )),
-    );
-  }
 }

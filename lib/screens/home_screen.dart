@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_clock/screens/alarm_screen.dart';
 import 'package:my_clock/screens/clock_screen.dart';
@@ -24,8 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          _selectedIndex == 0 ? const Color(0xFFEBF3FE) : Colors.grey[300],
+    // const Color(0xFFEBF3FE) :  clock actuall background
       body: _screens[_selectedIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8),
@@ -35,61 +35,31 @@ class _HomeScreenState extends State<HomeScreen> {
               child: InkWell(
                   onTap: () => setState(() => _selectedIndex = 0),
                   child: _selectedIndex == 0
-                      ? TappedButton(
-                          widget: Image.asset(
-                          'assets/clock48.png',
-                          fit: BoxFit.cover,
-                        ))
-                      : MyButton(
-                          widget: Image.asset(
-                          'assets/clock48.png',
-                          fit: BoxFit.cover,
-                        ))),
+                      ? const TappedButton(widget: Icon(CupertinoIcons.clock))
+                      : const MyButton(widget: Icon(CupertinoIcons.clock))),
             ),
             Expanded(
               child: InkWell(
                   onTap: () => setState(() => _selectedIndex = 1),
                   child: _selectedIndex == 1
-                      ? TappedButton(
-                          widget: Image.asset(
-                          'assets/alarm48.png',
-                          fit: BoxFit.cover,
-                        ))
-                      : MyButton(
-                          widget: Image.asset(
-                          'assets/alarm48.png',
-                          fit: BoxFit.cover,
-                        ))),
+                      ? const TappedButton(widget: Icon(CupertinoIcons.alarm))
+                      : const MyButton(widget: Icon(CupertinoIcons.alarm))),
             ),
             Expanded(
               child: InkWell(
                   onTap: () => setState(() => _selectedIndex = 2),
                   child: _selectedIndex == 2
-                      ? TappedButton(
-                          widget: Image.asset(
-                          'assets/stopwatch48.png',
-                          fit: BoxFit.cover,
-                        ))
-                      : MyButton(
-                          widget: Image.asset(
-                          'assets/stopwatch48.png',
-                          fit: BoxFit.cover,
-                        ))),
+                      ? const TappedButton(
+                          widget: Icon(CupertinoIcons.stopwatch_fill))
+                      : const MyButton(
+                          widget: Icon(CupertinoIcons.stopwatch_fill))),
             ),
             Expanded(
               child: InkWell(
                   onTap: () => setState(() => _selectedIndex = 3),
                   child: _selectedIndex == 3
-                      ? TappedButton(
-                          widget: Image.asset(
-                          'assets/timer48.png',
-                          fit: BoxFit.cover,
-                        ))
-                      : MyButton(
-                          widget: Image.asset(
-                          'assets/timer48.png',
-                          fit: BoxFit.cover,
-                        ))),
+                      ? const TappedButton(widget: Icon(CupertinoIcons.timer))
+                      : const MyButton(widget: Icon(CupertinoIcons.timer))),
             ),
           ],
         ),

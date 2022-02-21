@@ -7,7 +7,7 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Color(0xFFEBF3FE),
     systemNavigationBarIconBrightness: Brightness.dark, // navigation bar color
-    statusBarColor: Color.fromRGBO(235, 243, 254, 1),
+    statusBarColor: Color.fromARGB(255, 233, 229, 229),
   ));
   AwesomeNotifications().initialize(null, [
     NotificationChannel(
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.indigo,
-        scaffoldBackgroundColor: const Color(0xFFEBF3FE),
+        scaffoldBackgroundColor:const  Color(0xFFE0E0E0),
       ),
       home: const HomeScreen(),
     );
