@@ -172,6 +172,9 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                                               Text('Alarm Has been Created'),
                                         ),
                                       );
+                                   await Future.delayed(const Duration(seconds: 2) ,(){
+                                     Navigator.pop(context);
+                                   });
                                   } else {
                                     ScaffoldMessenger.of(context)
                                       ..hideCurrentSnackBar()
