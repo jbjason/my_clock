@@ -24,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:
+          _selectedIndex == 0 ? const Color(0xFFEBF3FE) : Colors.grey[300],
       body: _screens[_selectedIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8),

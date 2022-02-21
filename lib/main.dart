@@ -16,7 +16,7 @@ void main() {
       channelDescription: 'Notification channel for schedule tests',
       defaultColor: Colors.teal,
       importance: NotificationImportance.High,
-      locked: true,
+      locked: false,
       soundSource: 'resource://raw/res_custom_notification',
       channelShowBadge: true,
     ),
