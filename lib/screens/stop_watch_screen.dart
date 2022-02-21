@@ -81,13 +81,10 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _isStarted
-                  ? InkWell(
-                      onTap: !_isStopped ? _currentLaptime : _resetWatch,
-                      child:
-                          WhiteButton(text: !_isStopped ? 'LapTime' : 'Reset'),
-                    )
-                  : Container(),
+              InkWell(
+                onTap: !_isStopped ? _currentLaptime : _resetWatch,
+                child: WhiteButton(text: !_isStopped ? 'LapTime' : 'Reset'),
+              ),
               !_isStarted
                   ? InkWell(
                       onTap: _startWatch,
@@ -109,12 +106,6 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
-  }
-
-  void toggleButton() {
-    setState(() {
-      _isStarted = !_isStarted;
-    });
   }
 
   void _stopWatch() {
@@ -142,5 +133,17 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
   void _currentLaptime() {
     d = duration - d;
     lapList.add(LapItem(lapTime: d, overallTime: duration));
+  }
+
+  void toggleButton() {
+    setState(() {
+      _isStarted = !_isStarted;
+    });
+  }
+
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
   }
 }
