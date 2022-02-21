@@ -42,21 +42,25 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
             size: size,
           ),
           const SizedBox(height: 50),
-          SizedBox(
+          Container(
+            padding: const EdgeInsets.only(left: 15, right: 15),
             height: size.height * .2,
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: const [
-                    Text('Lap', style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text('Lap', style: TextStyle(fontWeight: FontWeight.w400)),
                     Text('Lap Time',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                        style: TextStyle(fontWeight: FontWeight.w400)),
                     Text('Overall Time',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                        style: TextStyle(fontWeight: FontWeight.w400)),
                   ],
                 ),
-                Divider(color: Colors.grey.withOpacity(0.5), thickness: 1.5),
+                Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Divider(
+                        color: Colors.grey.withOpacity(0.5), thickness: 1.5)),
                 Expanded(
                   child: ListView.builder(
                     itemBuilder: (context, i) {
@@ -65,7 +69,7 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(i.toString()),
+                            Text((i + 1).toString()),
                             Text(_formatDuration(lapList[i].lapTime)),
                             Text(_formatDuration(lapList[i].overallTime)),
                           ],
@@ -143,7 +147,9 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
 
   @override
   void dispose() {
-    timer!.cancel();
+    if (timer != null) {
+      timer!.cancel();
+    }
     super.dispose();
   }
 }

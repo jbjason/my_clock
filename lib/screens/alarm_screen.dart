@@ -22,7 +22,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
             itemCount: 2,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.only(bottom: 15, right: 15, left: 15),
+                padding: const EdgeInsets.all(17),
                 child: Container(
                   height: 140,
                   padding: const EdgeInsets.all(20),
@@ -53,7 +53,32 @@ class _AlarmScreenState extends State<AlarmScreen> {
                       ),
                     ],
                   ),
-                  decoration: decoration,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(34),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey[500]!,
+                          offset: const Offset(4.0, 4.0),
+                          blurRadius: 15.0,
+                          spreadRadius: 5.0),
+                      const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15.0,
+                          spreadRadius: 1.0),
+                    ],
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.grey[200]!,
+                        Colors.grey[400]!,
+                        Colors.blue[300]!.withOpacity(0.5),
+                      ],
+                      stops: const [0.0, 0.6, 1],
+                    ),
+                  ),
                 ),
               );
             },
@@ -88,8 +113,8 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
           IconButton(
             icon: const Icon(CupertinoIcons.add, size: 22),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => const AddAlarmWidget()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const AddAlarmWidget()));
             },
           ),
         ],
@@ -97,31 +122,3 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
     );
   }
 }
-
-final decoration = BoxDecoration(
-  color: Colors.grey[300],
-  borderRadius: BorderRadius.circular(20),
-  boxShadow: [
-    BoxShadow(
-        color: Colors.grey[500]!,
-        offset: const Offset(4.0, 4.0),
-        blurRadius: 15.0,
-        spreadRadius: 5.0),
-    const BoxShadow(
-        color: Colors.white,
-        offset: Offset(-4.0, -4.0),
-        blurRadius: 15.0,
-        spreadRadius: 1.0),
-  ],
-  // gradient: LinearGradient(
-  //   begin: Alignment.topLeft,
-  //   end: Alignment.bottomRight,
-  //   colors: [
-  //     const Color(0xFF3F6080).withOpacity(0.3),
-  //     const Color(0xFF3F6080).withOpacity(.2),
-  //     const Color(0xFF3F6080).withOpacity(.2),
-  //     const Color(0xFF3F6080).withOpacity(0.3),
-  //   ],
-  //   stops: const [0.0, 0.3, 0.6, 1],
-  // ),
-);

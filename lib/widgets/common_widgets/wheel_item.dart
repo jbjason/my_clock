@@ -27,7 +27,7 @@ class WheelItem extends StatelessWidget {
             color: selectedText == 's' && s == i ||
                     selectedText == 'm' && m == i ||
                     selectedText == 'h' && h == i
-                ? Colors.grey[800]
+                ? Colors.grey[700]
                 : Colors.grey[600],
             fontSize: 30,
             fontStyle: FontStyle.italic,

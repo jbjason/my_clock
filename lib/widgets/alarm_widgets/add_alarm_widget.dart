@@ -36,65 +36,65 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: size.height,
-              width: size.width,
-              child: Stack(
-                children: [
-                  // only Hour Minute Top Text
-                  const Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: 40,
-                    child: HourMinutesText(),
-                  ),
-                  // ListWheel
-                  Positioned(
-                    top: 20,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: size.height * .55,
-                      // width: size.width,
-                      padding: EdgeInsets.only(
-                          bottom: size.height * .05, left: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          _listWheelScroll(size, _hourController, 24, 'h'),
-                          const Text(
-                            ':',
-                          ),
-                          _listWheelScroll(size, _minuteController, 60, 'm'),
-                        ],
-                      ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: size.height,
+            width: size.width,
+            child: Stack(
+              children: [
+                // only Hour Minute Top Text
+                const Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 60,
+                  child: HourMinutesText(),
+                ),
+                // ListWheel
+                Positioned(
+                  top: 30,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: size.height * .52,
+                    // width: size.width,
+                    padding: EdgeInsets.only(
+                        bottom: size.height * .05, left: 20, right: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        _listWheelScroll(size, _hourController, 24, 'h'),
+                        Text(':',
+                            style:
+                                TextStyle(height: 30, color: Colors.grey[600])),
+                        _listWheelScroll(size, _minuteController, 60, 'm'),
+                      ],
                     ),
                   ),
-                  // Tilte textField & time selection area
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: size.height * .5,
-                    child: Container(
-                      height: size.height * .45,
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(50),
-                          topRight: Radius.circular(50),
-                        ),
-                        color: Colors.grey[350],
+                ),
+                // Tilte textField & time selection area
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: size.height * .5 - 10,
+                  child: Container(
+                    height: size.height * .5,
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
                       ),
+                      color: Colors.grey[350],
+                    ),
+                    child: SingleChildScrollView(
                       child: Column(
                         children: [
                           // todays Date & Calender
                           Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.only(top: 20,bottom: 20,left: 20,right: 30),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -113,7 +113,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                           ),
                           // Select weekDays
                           SizedBox(
-                            height: 40,
+                            height: 30,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: weekDays.length,
@@ -185,11 +185,11 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
