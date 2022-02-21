@@ -18,15 +18,6 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
   final List<LapItem> lapList = [];
   Timer? timer;
 
-  void _startWatch() {
-    toggleButton();
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (mounted) {
-        setState(() => duration = Duration(seconds: duration.inSeconds + 1));
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final value = (duration.inSeconds / 60);
@@ -42,6 +33,7 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
             size: size,
           ),
           const SizedBox(height: 50),
+          // lapTime & related title
           Container(
             padding: const EdgeInsets.only(left: 15, right: 15),
             height: size.height * .2,
@@ -82,47 +74,60 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                onTap: !_isStopped ? _currentLaptime : _resetWatch,
-                child: WhiteButton(text: !_isStopped ? 'LapTime' : 'Reset'),
-              ),
-              !_isStarted
-                  ? InkWell(
-                      onTap: _startWatch,
-                      child: const WhiteButton(text: 'Start'),
-                    )
-                  : InkWell(
-                      onTap: _isStopped ? _resumeWatch : _stopWatch,
-                      child: WhiteButton(text: _isStopped ? 'Resume' : 'Stop'),
-                    ),
-            ],
+          //  !_isPressed means its Visible
+          Visibility(
+            visible: !_isStarted,
+            child: InkWell(
+              onTap: _startWatch,
+              child: const WhiteButton(text: 'Start'),
+            ),
           ),
+          _isStarted
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    InkWell(
+                      onTap: !_isStopped ? _currentLaptime : _resetWatch,
+                      child:
+                          WhiteButton(text: !_isStopped ? 'LapTime' : 'Reset'),
+                    ),
+                    InkWell(
+                      onTap: !_isStopped ? _stopWatch : _resumeWatch,
+                      child: WhiteButton(text: !_isStopped ? 'Stop' : 'Resume'),
+                    ),
+                  ],
+                )
+              : Container(),
         ],
       ),
     );
   }
 
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+  void _startWatch() {
+    setState(() {
+      _isStarted = true;
+    });
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) {
+        setState(() => duration = Duration(seconds: duration.inSeconds + 1));
+      }
+    });
   }
 
   void _stopWatch() {
     setState(() {
-      _isStopped = !_isStopped;
+      _isStopped = !_isStopped; //_isStopped true hobe
       _currentCountDown = duration;
       timer?.cancel();
     });
   }
 
+  // Resume & Reset will appear in same Time
   void _resumeWatch() {
-    toggleButton();
-    setState(() => duration = _currentCountDown);
+    setState(() {
+      duration = _currentCountDown;
+      _isStopped = false;
+    });
     _startWatch();
   }
 
@@ -130,8 +135,9 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
     setState(() {
       duration = const Duration();
       timer?.cancel();
+      _isStarted = false;
+      _isStopped = false;
     });
-    toggleButton();
   }
 
   void _currentLaptime() {
@@ -139,10 +145,11 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
     lapList.add(LapItem(lapTime: d, overallTime: duration));
   }
 
-  void toggleButton() {
-    setState(() {
-      _isStarted = !_isStarted;
-    });
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 
   @override
