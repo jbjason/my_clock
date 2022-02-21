@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/hours_titletext.dart';
-import 'package:my_clock/widgets/timer_widgets/timer_screen/wheel_item.dart';
+import 'package:my_clock/widgets/common_widgets/wheel_item.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/minute_add_ten_more.dart';
 import 'package:my_clock/widgets/timer_widgets/timer_screen/start_bottom_button.dart';
 import 'package:my_clock/widgets/timer_widgets/countdown_screen/timer_clock.dart';

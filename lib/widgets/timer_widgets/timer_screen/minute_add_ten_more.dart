@@ -15,10 +15,13 @@ class MinuteAddTenMore extends StatelessWidget {
       height: 100,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.cyan[200]!, width: 2),
+        border: Border.all(color: Colors.grey[500]!, width: 2),
       ),
       child: TextButton(
-        child: const Text('00:10:00'),
+        child: Text(
+          '00:10:00',
+          style: TextStyle(color: Colors.grey[700]!),
+        ),
         onPressed: () {
           final _increaseMinute = _minuteController.selectedItem + 10;
           _minuteController.animateToItem(_increaseMinute,

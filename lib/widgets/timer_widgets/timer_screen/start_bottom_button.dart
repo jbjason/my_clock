@@ -12,10 +12,10 @@ class StartButtonBottom extends StatelessWidget {
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          letterSpacing: 1.4,
+          letterSpacing: 1.5,
         ),
       ),
-      padding: const EdgeInsets.all(30),
+      padding: const EdgeInsets.all(40),
       decoration: BoxDecoration(
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(12),

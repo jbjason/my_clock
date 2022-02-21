@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_clock/widgets/progress_indicator/build_stop_watch.dart';
-import 'package:my_clock/widgets/timer_widgets/white_button.dart';
+import 'package:my_clock/widgets/common_widgets/white_button.dart';
 
 class TimerClock extends StatefulWidget {
   const TimerClock(

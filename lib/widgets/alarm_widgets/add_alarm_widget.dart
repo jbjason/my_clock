@@ -6,8 +6,8 @@ import 'package:my_clock/models/create_notification.dart';
 import 'package:my_clock/widgets/alarm_widgets/hour_minutes_text.dart';
 import 'package:my_clock/widgets/alarm_widgets/title_textField.dart';
 import 'package:my_clock/widgets/alarm_widgets/weekdays_list.dart';
-import 'package:my_clock/widgets/timer_widgets/timer_screen/wheel_item.dart';
-import 'package:my_clock/widgets/timer_widgets/white_button.dart';
+import 'package:my_clock/widgets/common_widgets/wheel_item.dart';
+import 'package:my_clock/widgets/common_widgets/white_button.dart';
 
 class AddAlarmWidget extends StatefulWidget {
   const AddAlarmWidget({Key? key}) : super(key: key);
