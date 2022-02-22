@@ -14,15 +14,21 @@ class WeekDaysList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 17, right: 17),
-      child: Text(weekDays[index],
-          style: TextStyle(
-            fontWeight:
-                _selectedDay - 1 == index ? FontWeight.w900 : FontWeight.w400,
-            color:
-                _selectedDay - 1 == index ? Colors.grey[900] : Colors.grey[700],
-          )),
+    return Container(
+      padding: const EdgeInsets.only(left: 12, right: 12),
+      decoration: BoxDecoration(
+          color: _selectedDay - 1 == index ? Colors.grey : Colors.transparent,
+          shape:
+              _selectedDay - 1 == index ? BoxShape.circle : BoxShape.rectangle),
+      child: Center(
+        child: Text(weekDays[index],
+            style: TextStyle(
+              fontWeight:
+                  _selectedDay - 1 == index ? FontWeight.w900 : FontWeight.w400,
+              color:
+                  _selectedDay - 1 == index ? Colors.grey[900] : Colors.grey[700],
+            )),
+      ),
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    systemNavigationBarColor: Color(0xFFEBF3FE),
+    systemNavigationBarColor: Color(0xFFE0E0E0),
     systemNavigationBarIconBrightness: Brightness.dark, // navigation bar color
     statusBarColor: Color.fromARGB(255, 233, 229, 229),
   ));
@@ -16,7 +16,7 @@ void main() {
       channelKey: 'schedule_channel',
       channelName: 'Scheduled Notifications',
       channelDescription: 'Notification channel for schedule tests',
-      defaultColor: Colors.teal,
+      defaultColor: Colors.grey,
       importance: NotificationImportance.High,
       locked: false,
       soundSource: 'resource://raw/res_custom_notification',

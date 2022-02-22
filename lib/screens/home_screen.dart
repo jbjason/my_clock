@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // const Color(0xFFEBF3FE) :  clock actuall background
       body: _screens[_selectedIndex],
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 15),
+        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 5),
         child: Container(
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(

@@ -23,9 +23,9 @@ class TitleTextFormField extends StatelessWidget {
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           hintText: 'Title',
-          hintStyle:  TextStyle(color: Colors.grey[700], letterSpacing: 3.5),
+          hintStyle: const TextStyle(color: Colors.white, letterSpacing: 3.5),
           filled: true,
-          fillColor: Colors.grey[400],
+          fillColor: Colors.grey[500],
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.all(Radius.circular(20)),
