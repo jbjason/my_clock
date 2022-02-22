@@ -32,9 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: Colors.grey[350],
-          ),
+              borderRadius: BorderRadius.circular(50),
+              color: const Color(0xFFEBF3FE),
+              border: Border.all(color: Colors.grey[400]!, width: 1)),
           child: Row(
             children: [
               Expanded(
