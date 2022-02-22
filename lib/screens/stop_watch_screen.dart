@@ -104,9 +104,7 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
   }
 
   void _startWatch() {
-    setState(() {
-      _isStarted = true;
-    });
+    setState(() => _isStarted = true);
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) {
         setState(() => duration = Duration(seconds: duration.inSeconds + 1));
