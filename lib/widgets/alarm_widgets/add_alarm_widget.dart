@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:my_clock/models/create_notification.dart';
+import 'package:my_clock/models/my_alarms.dart';
 import 'package:my_clock/widgets/alarm_widgets/hour_minutes_text.dart';
 import 'package:my_clock/widgets/alarm_widgets/title_textField.dart';
 import 'package:my_clock/widgets/alarm_widgets/weekdays_list.dart';
 import 'package:my_clock/widgets/common_widgets/wheel_item.dart';
 import 'package:my_clock/widgets/common_widgets/white_button.dart';
+import 'package:provider/provider.dart';
 
 class AddAlarmWidget extends StatefulWidget {
   const AddAlarmWidget({Key? key}) : super(key: key);
@@ -49,11 +51,12 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                 children: [
                   // only Hour Minute Top Text
                   const Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: 60,
-                      child: HourMinutesText()),
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 60,
+                    child: HourMinutesText(),
+                  ),
                   // ListWheel
                   Positioned(
                       top: 30, left: 0, right: 0, child: _wheelList(size)),
@@ -292,21 +295,23 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
             final titleText = _titleController.text.trim();
             if (titleText.isNotEmpty) {
               final int id = createUniqueId();
+              final _dtime = DateTime(_selectedDateTime.year,
+                  _selectedDateTime.month, _selectedDateTime.day, h, m);
               await createScheduleNotification(
                 id,
                 titleText,
                 _isCalSelected,
                 NotificationWeekAndTime(
-                  dayOfTheWeek: _selectedDay,
-                  dateTime: DateTime(
-                    _selectedDateTime.year,
-                    _selectedDateTime.month,
-                    _selectedDateTime.day,
-                    h,
-                    m,
-                  ),
-                ),
+                    dayOfTheWeek: _selectedDay, dateTime: _dtime),
               );
+              _selectedWeekDays.sort();
+              Provider.of<MyAlarms>(context, listen: false).addAlarm(MyAlarm(
+                id: id.toString(),
+                title: titleText,
+                weekDays: _selectedWeekDays,
+                date: _dtime,
+                isCalSelected: _isCalSelected,
+              ));
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(

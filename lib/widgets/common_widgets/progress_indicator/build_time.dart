@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_clock/widgets/progress_indicator/build_time_card.dart';
+import 'package:my_clock/widgets/common_widgets/progress_indicator/build_time_card.dart';
 
 class BuildTime extends StatelessWidget {
   const BuildTime({Key? key, required this.duration}) : super(key: key);

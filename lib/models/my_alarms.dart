@@ -4,18 +4,29 @@ class MyAlarm {
   final String id, title;
   final List<int> weekDays;
   final DateTime date;
+  final bool isCalSelected;
   const MyAlarm(
       {required this.id,
       required this.title,
       required this.weekDays,
-      required this.date});
+      required this.date,
+      required this.isCalSelected});
 }
 
 class MyAlarms extends ChangeNotifier {
   final List<MyAlarm> _items = [
-    MyAlarm(id: '123', title: 'Jb Jason', weekDays: [3,1,5,3,4,0,6], date: DateTime.now()),
     MyAlarm(
-        id: '132', title: 'Loser & CO', weekDays: [3,1,5,3,4,0,6], date: DateTime.now()),
+        id: '123',
+        title: 'Jb Jason',
+        weekDays: [0, 3, 4, 6],
+        date: DateTime.now(),
+        isCalSelected: false),
+    MyAlarm(
+        id: '132',
+        title: 'Loser & CO',
+        weekDays: [1, 2, 5],
+        date: DateTime.now(),
+        isCalSelected: false),
   ];
 
   List<MyAlarm> get items {

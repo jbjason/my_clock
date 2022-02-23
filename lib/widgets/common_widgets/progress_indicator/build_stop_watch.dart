@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_clock/widgets/progress_indicator/build_time.dart';
+import 'package:my_clock/widgets/common_widgets/progress_indicator/build_time.dart';
 
 class BuildStopWatch extends StatelessWidget {
   const BuildStopWatch(
@@ -11,7 +11,7 @@ class BuildStopWatch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size.height * .4,
+      width: size.width * .8,
       height: size.height * .4,
       child: Stack(
         fit: StackFit.expand,
@@ -21,7 +21,7 @@ class BuildStopWatch extends StatelessWidget {
             // value: _setSecond(duration),
             value: val,
             valueColor: const AlwaysStoppedAnimation(Color(0xFFD6D6D6)),
-            strokeWidth: 12,
+            strokeWidth: 20,
             backgroundColor: const Color(0xFFEEEEEE),
           ),
           // Current time ,situated inside of the ProgressIndicator

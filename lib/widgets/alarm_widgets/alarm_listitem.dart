@@ -15,16 +15,10 @@ class AlarmListItem extends StatefulWidget {
 class _AlarmListItemState extends State<AlarmListItem> {
   bool _isOn = false;
   late bool _isLesser;
-  final List<String> weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-  @override
-  void initState() {
-    super.initState();
-    _isLesser = widget.myAlarm.date.minute < 10;
-  }
+  final List<String> _daysList = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
   @override
   Widget build(BuildContext context) {
-    final String s = '${widget.myAlarm.date.hour}:';
     return Padding(
       padding: const EdgeInsets.all(17),
       child: Container(
@@ -33,74 +27,84 @@ class _AlarmListItemState extends State<AlarmListItem> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Flexible(flex: 4, child: _titleAndAlarmTime()),
             Flexible(
               flex: 4,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(widget.myAlarm.title),
-                  const SizedBox(height: 8),
-                  Text(
-                    _isLesser
-                        ? s + '0${widget.myAlarm.date.minute}'
-                        : s + widget.myAlarm.date.minute.toString(),
-                    style: const TextStyle(fontSize: 30),
-                  ),
-                ],
-              ),
-            ),
-            Flexible(
-              flex: 4,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: weekDays.length,
-                      itemBuilder: (context, index) {
-                        final bool _isSelected =
-                            widget.myAlarm.weekDays[index] == index;
-                        return Padding(
-                          padding: const EdgeInsets.all(2),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _isSelected
-                                  ? Text(
-                                      '•',
-                                      style: TextStyle(
-                                          color: Colors.blueGrey[900],
-                                          fontWeight: FontWeight.w900),
-                                    )
-                                  : const Text(''),
-                              Text(
-                                weekDays[index],
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: _isSelected
-                                        ? FontWeight.w500
-                                        : FontWeight.w300,
-                                    color: Colors.blueGrey[900]),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  CupertinoSwitch(
-                    value: _isOn,
-                    activeColor: Colors.blueGrey[400],
-                    trackColor: Colors.blueGrey[200],
-                    onChanged: (val) => setState(() => _isOn = !_isOn),
-                  ),
-                ],
-              ),
+              child: _selectedWeekDaysAndSwitcher(),
             ),
           ],
         ),
         decoration: decoration,
       ),
+    );
+  }
+
+  Widget _selectedWeekDaysAndSwitcher() {
+    int i = 0, _length = widget.myAlarm.weekDays.length;
+    return Row(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: _daysList.length,
+            itemBuilder: (context, index) {
+              bool _isSelected = false;
+              if (i < _length && widget.myAlarm.weekDays[i] == index) {
+                _isSelected = true;
+                i++;
+              }
+              return Padding(
+                padding: const EdgeInsets.all(2),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _isSelected
+                        ? Text(
+                            '•',
+                            style: TextStyle(
+                                color: Colors.blueGrey[900],
+                                fontWeight: FontWeight.w900),
+                          )
+                        : const Text(''),
+                    Text(
+                      _daysList[index],
+                      style: TextStyle(
+                          fontSize: 13,
+                          fontWeight:
+                              _isSelected ? FontWeight.w500 : FontWeight.w300,
+                          color: Colors.blueGrey[900]),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        CupertinoSwitch(
+          value: _isOn,
+          activeColor: Colors.blueGrey[400],
+          trackColor: Colors.blueGrey[200],
+          onChanged: (val) => setState(() => _isOn = !_isOn),
+        ),
+      ],
+    );
+  }
+
+  Widget _titleAndAlarmTime() {
+    final String s = '${widget.myAlarm.date.hour}:';
+    _isLesser = widget.myAlarm.date.minute < 10;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(widget.myAlarm.title),
+        const SizedBox(height: 8),
+        Text(
+          _isLesser
+              ? s + '0${widget.myAlarm.date.minute}'
+              : s + widget.myAlarm.date.minute.toString(),
+          style: const TextStyle(fontSize: 30),
+        ),
+      ],
     );
   }
 
@@ -127,7 +131,7 @@ class _AlarmListItemState extends State<AlarmListItem> {
         Colors.grey[400]!,
         Colors.blue[300]!.withOpacity(0.5),
       ],
-      stops: const [0.0, 0.6, 1],
+      stops: const [0.0, 0.55, 1],
     ),
   );
 }
