@@ -49,6 +49,7 @@ class _AlarmListItemState extends State<AlarmListItem> {
             itemCount: _daysList.length,
             itemBuilder: (context, index) {
               bool _isSelected = false;
+              // if index matches then i++ till i <length
               if (i < _length && widget.myAlarm.weekDays[i] == index) {
                 _isSelected = true;
                 i++;
