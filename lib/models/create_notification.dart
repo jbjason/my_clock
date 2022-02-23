@@ -35,13 +35,6 @@ Future<void> createScheduleNotification(
         ? NotificationCalendar.fromDate(
             date: notificationWeekAndTime.dateTime,
             repeats: true,
-            // year: notificationWeekAndTime.dateTime.year,
-            // month: notificationWeekAndTime.dateTime.month,
-            // day: notificationWeekAndTime.dateTime.day,
-            // hour: notificationWeekAndTime.dateTime.hour,
-            // minute: notificationWeekAndTime.dateTime.minute,
-            // second: notificationWeekAndTime.dateTime.second,
-            // millisecond: notificationWeekAndTime.dateTime.microsecond,
           )
         : NotificationCalendar(
             repeats: true,

@@ -17,8 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final List<Widget> _screens = const [
-    ClockScreen(),
     AlarmScreen(),
+    ClockScreen(),
     StopWatchScreen(),
     TimerScreen(),
   ];
@@ -41,15 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: InkWell(
                     onTap: () => setState(() => _selectedIndex = 0),
                     child: _selectedIndex == 0
-                        ? const TappedButton(widget: Icon(CupertinoIcons.clock))
-                        : const MyButton(widget: Icon(CupertinoIcons.clock))),
+                        ? const TappedButton(widget: Icon(CupertinoIcons.alarm))
+                        : const MyButton(widget: Icon(CupertinoIcons.alarm))),
               ),
               Expanded(
                 child: InkWell(
                     onTap: () => setState(() => _selectedIndex = 1),
                     child: _selectedIndex == 1
-                        ? const TappedButton(widget: Icon(CupertinoIcons.alarm))
-                        : const MyButton(widget: Icon(CupertinoIcons.alarm))),
+                        ? const TappedButton(widget: Icon(CupertinoIcons.clock))
+                        : const MyButton(widget: Icon(CupertinoIcons.clock))),
               ),
               Expanded(
                 child: InkWell(
