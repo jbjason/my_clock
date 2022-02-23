@@ -19,13 +19,14 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
   late final FixedExtentScrollController _hourController;
   late final FixedExtentScrollController _minuteController;
   final _titleController = TextEditingController();
-  final String currentDate = DateFormat('EEEE, d MMM').format(DateTime.now());
+  String currentDate = DateFormat('EEEE, MMM d').format(DateTime.now());
   final List<String> weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
   // DateTime.now().weekday  gives from 1 to 7 not 0 to 7
-  List<int> selectedWeekDays = [DateTime.now().weekday - 1];
-  DateTime selectedDateTIme = DateTime.now();
+  List<int> _selectedWeekDays = [DateTime.now().weekday - 1];
+  DateTime _selectedDateTime = DateTime.now();
   int _selectedDay = DateTime.now().weekday;
   int h = DateTime.now().hour, m = DateTime.now().minute, s = 0;
+  bool _isCalSelected = false;
 
   @override
   void initState() {
@@ -38,70 +39,58 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: size.height,
-            width: size.width,
-            child: Stack(
-              children: [
-                // only Hour Minute Top Text
-                const Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 60,
-                  child: HourMinutesText(),
-                ),
-                // ListWheel
-                Positioned(top: 30, left: 0, right: 0, child: _wheelList(size)),
-                // Tilte textField & time selection area
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: size.height * .5 - 10,
-                  child: Container(
-                    height: size.height * .55,
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          // todays Date & Calender
-                          _todaysDateAndCalender(),
-                          // Select weekDays
-                          _weekList(),
-                          // Selected days List
-                          _selectedDaysList(size),
-                          // title textField
-                          TitleTextFormField(titleController: _titleController),
-                          const SizedBox(height: 40),
-                          // cancel & save button
-                          _cancelAndSaveButton(),
-                        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: size.height,
+              width: size.width,
+              child: Stack(
+                children: [
+                  // only Hour Minute Top Text
+                  const Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: 60,
+                      child: HourMinutesText()),
+                  // ListWheel
+                  Positioned(
+                      top: 30, left: 0, right: 0, child: _wheelList(size)),
+                  // Tilte textField & time selection area
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: size.height * .5 - 10,
+                    child: Container(
+                      height: size.height * .55,
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            // todays Date & Calender
+                            _todaysDateAndCalender(),
+                            // Select weekDays
+                            _isCalSelected ? Container() : _weekList(),
+                            // Selected days List
+                            _selectedDaysList(size),
+                            // title textField
+                            TitleTextFormField(
+                                titleController: _titleController),
+                            const SizedBox(height: 40),
+                            // cancel & save button
+                            _cancelAndSaveButton(),
+                          ],
+                        ),
                       ),
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50),
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Colors.blue[300]!.withOpacity(0.5),
-                          Colors.grey[400]!,
-                          Colors.grey[300]!,
-                        ],
-                        stops: const [0.0, 0.5, 1],
-                      ),
+                      decoration: decoration,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -115,7 +104,8 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
         children: [
           Text(
             'Today : $currentDate',
-            style: TextStyle(color: Colors.grey[900]),
+            style:
+                TextStyle(color: Colors.grey[900], fontWeight: FontWeight.w500),
           ),
           IconButton(
             icon: Icon(CupertinoIcons.calendar,
@@ -178,8 +168,8 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
           // +1 cz as default Monday=1 ,Tu=2, 'We'=3, 'Th'=4, 'Fr'=5, 'Sa'=6, 'Su'=7
           onTap: () => setState(() {
             _selectedDay = index + 1;
-            if (!selectedWeekDays.contains(index)) {
-              selectedWeekDays.add(index);
+            if (!_selectedWeekDays.contains(index)) {
+              _selectedWeekDays.add(index);
             }
           }),
           child: WeekDaysList(
@@ -202,27 +192,38 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey[700]!),
             ),
-            Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: selectedWeekDays.length,
-                itemBuilder: (context, index) => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(7),
-                    child: Text(
-                      weekDays[selectedWeekDays[index]].toString(),
-                      textAlign: TextAlign.center,
+            _isCalSelected
+                ? Text(DateFormat(' EEEE, MMM d').format(_selectedDateTime))
+                : Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _selectedWeekDays.length,
+                      itemBuilder: (context, index) => Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(7),
+                          child: Text(
+                            weekDays[_selectedWeekDays[index]].toString(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
             IconButton(
               onPressed: () {
-                setState(() {
-                  selectedWeekDays = [];
-                  selectedWeekDays.add(_selectedDay - 1);
-                });
+                if (_isCalSelected) {
+                  setState(() {
+                    _isCalSelected = false;
+                    _selectedDateTime = DateTime.now();
+                    _selectedWeekDays = [];
+                    _selectedWeekDays.add(_selectedDay - 1);
+                  });
+                } else {
+                  setState(() {
+                    _selectedWeekDays = [];
+                    _selectedWeekDays.add(_selectedDay - 1);
+                  });
+                }
               },
               icon: const Icon(Icons.delete),
             ),
@@ -251,7 +252,10 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
       if (newDateTime.year > date.year ||
           newDateTime.month > date.month ||
           newDateTime.month == date.month && monthDays.day >= date.day - 1) {
-        setState(() => selectedDateTIme = newDateTime);
+        setState(() {
+          _selectedDateTime = newDateTime;
+          _isCalSelected = true;
+        });
       } else {
         showDialog(
           context: context,
@@ -288,22 +292,21 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
             final titleText = _titleController.text.trim();
             if (titleText.isNotEmpty) {
               final int id = createUniqueId();
-              // await createScheduleNotification(
-              //   id,
-              //   titleText,
-              //   NotificationWeekAndTime(
-              //     dayOfTheWeek: _selectedDay,
-              //     dateTime: DateTime(
-              //       selectedDateTIme.year,
-              //       selectedDateTIme.month,
-              //       selectedDateTIme.day,
-              //       h,
-              //       m,
-              //       s,
-              //       0, //milisec
-              //     ),
-              //   ),
-              // );
+              await createScheduleNotification(
+                id,
+                titleText,
+                _isCalSelected,
+                NotificationWeekAndTime(
+                  dayOfTheWeek: _selectedDay,
+                  dateTime: DateTime(
+                    _selectedDateTime.year,
+                    _selectedDateTime.month,
+                    _selectedDateTime.day,
+                    h,
+                    m,
+                  ),
+                ),
+              );
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
@@ -323,6 +326,22 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
     );
   }
 
+  final decoration = BoxDecoration(
+    borderRadius: const BorderRadius.only(
+      topLeft: Radius.circular(50),
+      topRight: Radius.circular(50),
+    ),
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Colors.blue[300]!.withOpacity(0.5),
+        Colors.grey[400]!,
+        Colors.grey[300]!,
+      ],
+      stops: const [0.0, 0.5, 1],
+    ),
+  );
   final snackBar = SnackBar(
     backgroundColor: Colors.transparent,
     duration: const Duration(seconds: 2),

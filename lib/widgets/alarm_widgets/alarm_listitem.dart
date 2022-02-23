@@ -14,9 +14,17 @@ class AlarmListItem extends StatefulWidget {
 
 class _AlarmListItemState extends State<AlarmListItem> {
   bool _isOn = false;
+  late bool _isLesser;
   final List<String> weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   @override
+  void initState() {
+    super.initState();
+    _isLesser = widget.myAlarm.date.minute < 10;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final String s = '${widget.myAlarm.date.hour}:';
     return Padding(
       padding: const EdgeInsets.all(17),
       child: Container(
@@ -33,7 +41,9 @@ class _AlarmListItemState extends State<AlarmListItem> {
                   Text(widget.myAlarm.title),
                   const SizedBox(height: 8),
                   Text(
-                    "${widget.myAlarm.date.hour}:${widget.myAlarm.date.minute}",
+                    _isLesser
+                        ? s + '0${widget.myAlarm.date.minute}'
+                        : s + widget.myAlarm.date.minute.toString(),
                     style: const TextStyle(fontSize: 30),
                   ),
                 ],

@@ -17,6 +17,7 @@ int createUniqueId() {
 Future<void> createScheduleNotification(
   int id,
   String title,
+  bool isCalSelected,
   NotificationWeekAndTime notificationWeekAndTime,
 ) async {
   await AwesomeNotifications().createNotification(
@@ -30,16 +31,26 @@ Future<void> createScheduleNotification(
     actionButtons: [
       NotificationActionButton(key: 'Mark_Done', label: 'Mark done'),
     ],
-    schedule: NotificationCalendar(
-      repeats: true,
-      // year: notificationWeekAndTime.dateTime.year,
-      // month: notificationWeekAndTime.dateTime.month,
-      weekday: notificationWeekAndTime.dayOfTheWeek,
-      hour: notificationWeekAndTime.dateTime.hour,
-      minute: notificationWeekAndTime.dateTime.minute,
-      second: notificationWeekAndTime.dateTime.second,
-      millisecond: notificationWeekAndTime.dateTime.microsecond,
-    ),
+    schedule: isCalSelected
+        ? NotificationCalendar.fromDate(
+            date: notificationWeekAndTime.dateTime,
+            repeats: true,
+            // year: notificationWeekAndTime.dateTime.year,
+            // month: notificationWeekAndTime.dateTime.month,
+            // day: notificationWeekAndTime.dateTime.day,
+            // hour: notificationWeekAndTime.dateTime.hour,
+            // minute: notificationWeekAndTime.dateTime.minute,
+            // second: notificationWeekAndTime.dateTime.second,
+            // millisecond: notificationWeekAndTime.dateTime.microsecond,
+          )
+        : NotificationCalendar(
+            repeats: true,
+            weekday: notificationWeekAndTime.dayOfTheWeek,
+            hour: notificationWeekAndTime.dateTime.hour,
+            minute: notificationWeekAndTime.dateTime.minute,
+            second: 0,
+            millisecond: 0,
+          ),
   );
 }
 
