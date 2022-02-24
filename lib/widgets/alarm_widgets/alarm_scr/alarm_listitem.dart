@@ -6,8 +6,15 @@ class AlarmListItem extends StatefulWidget {
   const AlarmListItem({
     Key? key,
     required this.myAlarm,
+    required this.enabledMultiSel,
+    required this.isSelected,
+    required this.addToSelectedItem,
   }) : super(key: key);
   final MyAlarm myAlarm;
+  final VoidCallback enabledMultiSel;
+  final ValueChanged<MyAlarm> addToSelectedItem;
+  final bool isSelected;
+
   @override
   State<AlarmListItem> createState() => _AlarmListItemState();
 }
@@ -19,22 +26,56 @@ class _AlarmListItemState extends State<AlarmListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(17),
-      child: Container(
-        height: 140,
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(flex: 4, child: _titleAndAlarmTime()),
-            Flexible(
-              flex: 4,
-              child: _selectedWeekDaysAndSwitcher(),
-            ),
-          ],
+    return InkWell(
+      onLongPress: () {
+        widget.enabledMultiSel();
+        widget.addToSelectedItem(widget.myAlarm);
+      },
+      onTap: () => widget.addToSelectedItem(widget.myAlarm),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 17,right: 17,bottom: 17),
+        child: Container(
+          height: 140,
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(flex: 4, child: _titleAndAlarmTime()),
+              Flexible(
+                flex: 4,
+                child: _selectedWeekDaysAndSwitcher(),
+              ),
+            ],
+          ),
+          decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(34),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey[500]!,
+                  offset: const Offset(4.0, 4.0),
+                  blurRadius: 15.0,
+                  spreadRadius: 5.0),
+              const BoxShadow(
+                  color: Colors.white,
+                  offset: Offset(-4.0, -4.0),
+                  blurRadius: 15.0,
+                  spreadRadius: 1.0),
+            ],
+            gradient: widget.isSelected
+                ? LinearGradient(colors: [Colors.grey[500]!, Colors.grey[600]!])
+                : LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.grey[200]!,
+                      Colors.grey[400]!,
+                      Colors.blue[300]!.withOpacity(0.5),
+                    ],
+                    stops: const [0.0, 0.55, 1],
+                  ),
+          ),
         ),
-        decoration: decoration,
       ),
     );
   }
@@ -48,10 +89,10 @@ class _AlarmListItemState extends State<AlarmListItem> {
             scrollDirection: Axis.horizontal,
             itemCount: _daysList.length,
             itemBuilder: (context, index) {
-              bool _isSelected = false;
+              bool isSelected = false;
               // if index matches then i++ till i <length
               if (i < _length && widget.myAlarm.weekDays[i] == index) {
-                _isSelected = true;
+                isSelected = true;
                 i++;
               }
               return Padding(
@@ -59,7 +100,7 @@ class _AlarmListItemState extends State<AlarmListItem> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _isSelected
+                    isSelected
                         ? Text(
                             '•',
                             style: TextStyle(
@@ -72,7 +113,7 @@ class _AlarmListItemState extends State<AlarmListItem> {
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight:
-                              _isSelected ? FontWeight.w500 : FontWeight.w300,
+                              isSelected ? FontWeight.w500 : FontWeight.w300,
                           color: Colors.blueGrey[900]),
                     ),
                   ],
@@ -108,31 +149,4 @@ class _AlarmListItemState extends State<AlarmListItem> {
       ],
     );
   }
-
-  final decoration = BoxDecoration(
-    color: Colors.grey[300],
-    borderRadius: BorderRadius.circular(34),
-    boxShadow: [
-      BoxShadow(
-          color: Colors.grey[500]!,
-          offset: const Offset(4.0, 4.0),
-          blurRadius: 15.0,
-          spreadRadius: 5.0),
-      const BoxShadow(
-          color: Colors.white,
-          offset: Offset(-4.0, -4.0),
-          blurRadius: 15.0,
-          spreadRadius: 1.0),
-    ],
-    gradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Colors.grey[200]!,
-        Colors.grey[400]!,
-        Colors.blue[300]!.withOpacity(0.5),
-      ],
-      stops: const [0.0, 0.55, 1],
-    ),
-  );
 }
