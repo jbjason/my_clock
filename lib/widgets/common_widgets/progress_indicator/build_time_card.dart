@@ -14,8 +14,29 @@ class BuildTimeCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color:   Colors.grey[350],
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(34),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey[500]!,
+                    offset: const Offset(4.0, 4.0),
+                    blurRadius: 15.0,
+                    spreadRadius: 5.0),
+                const BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(-4.0, -4.0),
+                    blurRadius: 15.0,
+                    spreadRadius: 1.0),
+              ],
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.grey[200]!,
+                  Colors.grey[400]!,
+                  Colors.blue[300]!.withOpacity(0.5),
+                ],
+                stops: const [0.0, 0.55, 1],
+              ),
             ),
             child: Text(
               time,

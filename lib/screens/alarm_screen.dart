@@ -36,7 +36,6 @@ class _AlarmScreenState extends State<AlarmScreen> {
   @override
   Widget build(BuildContext context) {
     final _myAlarms = Provider.of<MyAlarms>(context).items;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -56,6 +55,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
                 enabledMultiSel: enabledMultiSel,
                 addToSelectedItem: addToSelectedItem,
                 isSelected: _isSelected,
+                isMultiSel: _isMultiSelect,
               );
             },
           ),

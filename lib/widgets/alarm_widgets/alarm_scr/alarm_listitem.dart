@@ -9,11 +9,12 @@ class AlarmListItem extends StatefulWidget {
     required this.enabledMultiSel,
     required this.isSelected,
     required this.addToSelectedItem,
+    required this.isMultiSel,
   }) : super(key: key);
   final MyAlarm myAlarm;
   final VoidCallback enabledMultiSel;
   final ValueChanged<MyAlarm> addToSelectedItem;
-  final bool isSelected;
+  final bool isSelected, isMultiSel;
 
   @override
   State<AlarmListItem> createState() => _AlarmListItemState();
@@ -33,22 +34,20 @@ class _AlarmListItemState extends State<AlarmListItem> {
       },
       onTap: () => widget.addToSelectedItem(widget.myAlarm),
       child: Padding(
-        padding: const EdgeInsets.only(left: 17,right: 17,bottom: 17),
+        padding: const EdgeInsets.only(left: 17, right: 17, bottom: 17),
         child: Container(
           height: 140,
           padding: const EdgeInsets.all(20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // title ,AlarmTime , Selected IconMark
               Flexible(flex: 4, child: _titleAndAlarmTime()),
-              Flexible(
-                flex: 4,
-                child: _selectedWeekDaysAndSwitcher(),
-              ),
+              // Selected WeekDays & Switcher
+              Flexible(flex: 4, child: _selectedWeekDaysAndSwitcher()),
             ],
           ),
           decoration: BoxDecoration(
-            color: Colors.grey[300],
             borderRadius: BorderRadius.circular(34),
             boxShadow: [
               BoxShadow(
@@ -135,16 +134,43 @@ class _AlarmListItemState extends State<AlarmListItem> {
   Widget _titleAndAlarmTime() {
     final String s = '${widget.myAlarm.date.hour}:';
     _isLesser = widget.myAlarm.date.minute < 10;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Row(
       children: [
-        Text(widget.myAlarm.title),
-        const SizedBox(height: 8),
-        Text(
-          _isLesser
-              ? s + '0${widget.myAlarm.date.minute}'
-              : s + widget.myAlarm.date.minute.toString(),
-          style: const TextStyle(fontSize: 30),
+        // if selected then Selected_IconMark
+        Center(
+          child: Container(
+            height: widget.isMultiSel ? 27 : 0,
+            width: widget.isMultiSel ? 27 : 0,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFFEBF3FE), width: 2),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey[300],
+                border: Border.all(color: Colors.grey[600]!, width: 2),
+              ),
+              child: widget.isSelected
+                  ? const Icon(CupertinoIcons.check_mark, size: 18)
+                  : const SizedBox(),
+            ),
+          ),
+        ),
+        SizedBox(width: widget.isMultiSel ? 10 : 0),
+        // title & time
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(widget.myAlarm.title),
+            const SizedBox(height: 8),
+            Text(
+              _isLesser
+                  ? s + '0${widget.myAlarm.date.minute}'
+                  : s + widget.myAlarm.date.minute.toString(),
+              style: const TextStyle(fontSize: 30),
+            ),
+          ],
         ),
       ],
     );
