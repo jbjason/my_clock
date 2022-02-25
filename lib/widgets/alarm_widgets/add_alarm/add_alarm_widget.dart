@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:my_clock/models/create_notification.dart';
 import 'package:my_clock/models/my_alarms.dart';
 import 'package:my_clock/widgets/alarm_widgets/add_alarm/hour_minutes_text.dart';
-import 'package:my_clock/widgets/alarm_widgets/title_textField.dart';
+import 'package:my_clock/widgets/alarm_widgets/add_alarm/title_textfield.dart';
 import 'package:my_clock/widgets/alarm_widgets/add_alarm/weekdays_list.dart';
 import 'package:my_clock/widgets/common_widgets/wheel_item.dart';
 import 'package:my_clock/widgets/common_widgets/white_button.dart';

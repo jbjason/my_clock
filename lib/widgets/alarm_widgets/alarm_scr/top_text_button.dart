@@ -48,8 +48,31 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
                       const SizedBox(width: 10),
                       IconButton(
                         onPressed: () {
-                          Provider.of<MyAlarms>(context, listen: false)
-                              .deleteAlarms(mulSelectedItems);
+                          showDialog(
+                            context: context,
+                            builder: (c) => CupertinoAlertDialog(
+                              title: const Text(
+                                  "Are you sure wanna delete these alarms ?"),
+                              actions: [
+                                CupertinoDialogAction(
+                                  child: const Text("Cancel"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                CupertinoDialogAction(
+                                  child: const Text("OK"),
+                                  onPressed: () {
+                                    Provider.of<MyAlarms>(context,
+                                            listen: false)
+                                        .deleteAlarms(mulSelectedItems);
+                                    cancelMultiSel();
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
                         },
                         icon: const Icon(Icons.delete,
                             size: 22, color: Colors.red),
@@ -59,8 +82,10 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
                 : IconButton(
                     icon: const Icon(CupertinoIcons.add, size: 25),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const AddAlarmWidget()));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => const AddAlarmWidget()),
+                      );
                     },
                   ),
           ],

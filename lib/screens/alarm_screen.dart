@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_clock/models/my_alarms.dart';
-import 'package:my_clock/widgets/alarm_widgets/add_alarm/alarm_scr/alarm_listitem.dart';
+import 'package:my_clock/widgets/alarm_widgets/alarm_scr/alarm_listitem.dart';
 import 'package:my_clock/widgets/alarm_widgets/alarm_scr/top_text_button.dart';
 import 'package:provider/provider.dart';
 

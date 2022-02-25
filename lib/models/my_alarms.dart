@@ -40,9 +40,7 @@ class MyAlarms extends ChangeNotifier {
 
   void deleteAlarms(List<MyAlarm> myItems) {
     for (int i = 0; i < myItems.length; i++) {
-      if (myItems[i].id == _items[i].id) {
-        _items.remove(myItems[i]);
-      }
+      _items.remove(myItems[i]);
     }
     notifyListeners();
   }
