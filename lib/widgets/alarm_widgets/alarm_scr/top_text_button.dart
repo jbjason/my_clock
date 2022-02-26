@@ -21,65 +21,21 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
       height: kToolbarHeight + 8,
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
       child: Center(
-        child: Row(
-          children: [
-            const Text(
-              'Alarm ',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF616161),
-              ),
-            ),
-            const Spacer(),
-            isMultiSel
-                ? Row(
-                    children: [
-                      TextButton(
-                        onPressed: () => cancelMultiSel(),
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      IconButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (c) => CupertinoAlertDialog(
-                              title: const Text(
-                                  "Are you sure wanna delete these alarms ?"),
-                              actions: [
-                                CupertinoDialogAction(
-                                  child: const Text("Cancel"),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                CupertinoDialogAction(
-                                  child: const Text("OK"),
-                                  onPressed: () {
-                                    Provider.of<MyAlarms>(context,
-                                            listen: false)
-                                        .deleteAlarms(mulSelectedItems);
-                                    cancelMultiSel();
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.delete,
-                            size: 22, color: Colors.red),
-                      )
-                    ],
-                  )
-                : IconButton(
+        child: isMultiSel
+            ? cancelAndDeleteIcon(context)
+            : Row(
+                // if multiSelect isn't selected
+                children: [
+                  const Text(
+                    'Alarm',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF616161),
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
                     icon: const Icon(CupertinoIcons.add, size: 25),
                     onPressed: () {
                       Navigator.of(context).push(
@@ -88,9 +44,64 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
                       );
                     },
                   ),
-          ],
-        ),
+                ],
+              ),
       ),
+    );
+  }
+
+  Widget cancelAndDeleteIcon(BuildContext context) {
+    return Row(
+      children: [
+        TextButton(
+          onPressed: () => cancelMultiSel(),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(width: 14),
+        Text(
+          '${mulSelectedItems.length} items selected.',
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF616161),
+          ),
+        ),
+        const Spacer(),
+        IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (c) => CupertinoAlertDialog(
+                title: const Text("Are you sure wanna delete these alarms ?"),
+                actions: [
+                  CupertinoDialogAction(
+                    child: const Text("Cancel"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  CupertinoDialogAction(
+                    child: const Text("OK"),
+                    onPressed: () {
+                      Provider.of<MyAlarms>(context, listen: false)
+                          .deleteAlarms(mulSelectedItems);
+                      cancelMultiSel();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+          icon: const Icon(Icons.delete, size: 22, color: Colors.red),
+        )
+      ],
     );
   }
 }
