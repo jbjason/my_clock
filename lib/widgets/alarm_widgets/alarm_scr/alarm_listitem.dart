@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_clock/models/my_alarms.dart';
+import 'package:my_clock/widgets/alarm_widgets/alarm_scr/selected_circle_icon.dart';
 
 class AlarmListItem extends StatefulWidget {
   const AlarmListItem({
@@ -137,26 +138,8 @@ class _AlarmListItemState extends State<AlarmListItem> {
     return Row(
       children: [
         // if selected then Selected_IconMark
-        Center(
-          child: Container(
-            height: widget.isMultiSel ? 27 : 0,
-            width: widget.isMultiSel ? 27 : 0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFFEBF3FE), width: 2),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.grey[300],
-                border: Border.all(color: Colors.grey[600]!, width: 2),
-              ),
-              child: widget.isSelected
-                  ? const Icon(CupertinoIcons.check_mark, size: 18)
-                  : const SizedBox(),
-            ),
-          ),
-        ),
+        SelectedCirleIcon(
+            isMultiSel: widget.isMultiSel, isSelected: widget.isSelected),
         SizedBox(width: widget.isMultiSel ? 10 : 0),
         // title & time
         Column(

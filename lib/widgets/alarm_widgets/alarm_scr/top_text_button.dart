@@ -55,13 +55,7 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
       children: [
         TextButton(
           onPressed: () => cancelMultiSel(),
-          child: const Text(
-            'Cancel',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: const Icon(Icons.close, size: 22),
         ),
         const SizedBox(width: 14),
         Text(
