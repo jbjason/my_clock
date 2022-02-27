@@ -53,15 +53,14 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
   Widget cancelAndDeleteIcon(BuildContext context) {
     return Row(
       children: [
-        TextButton(
+        IconButton(
           onPressed: () => cancelMultiSel(),
-          child: const Icon(Icons.close, size: 22),
+          icon: const Icon(Icons.close),
         ),
         const SizedBox(width: 14),
         Text(
           '${mulSelectedItems.length} items selected.',
           style: const TextStyle(
-            fontSize: 28,
             fontWeight: FontWeight.bold,
             color: Color(0xFF616161),
           ),
@@ -93,7 +92,7 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
               ),
             );
           },
-          icon: const Icon(Icons.delete, size: 22, color: Colors.red),
+          icon: const Icon(Icons.delete, size: 22),
         )
       ],
     );

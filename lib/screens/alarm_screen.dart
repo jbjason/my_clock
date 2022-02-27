@@ -57,14 +57,16 @@ class _AlarmScreenState extends State<AlarmScreen> {
                     }
                   });
                 },
-                child: SizedBox(
+                child: Container(
                   height: 30,
+                  padding:const EdgeInsets.only(left: 30, right: 30),
                   child: Row(
                     children: [
                       SelectedCirleIcon(
                           isMultiSel: _isMultiSelect,
                           isSelected: _isAllSelected),
                       const SizedBox(width: 15),
+                      const Text('All',style: TextStyle(fontWeight: FontWeight.w400)),
                     ],
                   ),
                 ),
