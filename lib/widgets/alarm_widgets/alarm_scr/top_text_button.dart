@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_clock/models/create_notification.dart';
 import 'package:my_clock/models/my_alarms.dart';
 import 'package:my_clock/widgets/alarm_widgets/add_alarm/add_alarm_widget.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +67,9 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
           ),
         ),
         const Spacer(),
+        // delete button
         IconButton(
+          icon: const Icon(Icons.delete, size: 22),
           onPressed: () {
             showDialog(
               context: context,
@@ -81,10 +84,14 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
                   ),
                   CupertinoDialogAction(
                     child: const Text("OK"),
-                    onPressed: () {
+                    onPressed: () async {
                       Provider.of<MyAlarms>(context, listen: false)
                           .deleteAlarms(mulSelectedItems);
                       cancelMultiSel();
+                      for (int i = 0; i < mulSelectedItems.length; i++) {
+                        await cancelScheduleNotifications(
+                            int.parse(mulSelectedItems[i].id));
+                      }
                       Navigator.pop(context);
                     },
                   ),
@@ -92,7 +99,6 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
               ),
             );
           },
-          icon: const Icon(Icons.delete, size: 22),
         )
       ],
     );

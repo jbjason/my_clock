@@ -40,9 +40,9 @@ Future<void> createScheduleNotification(
             )
           : NotificationCalendar(
               repeats: true,
-              weekday: notificationWeekAndTime.dayOfTheWeek,
+              weekday:weekDays[0]+1,
               hour: notificationWeekAndTime.dateTime.hour,
-              minute: notificationWeekAndTime.dateTime.minute + 3,
+              minute: notificationWeekAndTime.dateTime.minute,
               second: 0,
               millisecond: 0,
             ),
