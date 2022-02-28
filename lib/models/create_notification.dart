@@ -18,33 +18,36 @@ Future<void> createScheduleNotification(
   int id,
   String title,
   bool isCalSelected,
+  List<int> weekDays,
   NotificationWeekAndTime notificationWeekAndTime,
 ) async {
-  await AwesomeNotifications().createNotification(
-    content: NotificationContent(
-      id: id,
-      channelKey: 'schedule_channel',
-      title: '$title${Emojis.wheater_droplet}',
-      body: 'Hello !! this is ur reminder',
-      notificationLayout: NotificationLayout.Default,
-    ),
-    actionButtons: [
-      NotificationActionButton(key: 'Mark_Done', label: 'Mark done'),
-    ],
-    schedule: isCalSelected
-        ? NotificationCalendar.fromDate(
-            date: notificationWeekAndTime.dateTime,
-            repeats: true,
-          )
-        : NotificationCalendar(
-            repeats: true,
-            weekday: notificationWeekAndTime.dayOfTheWeek,
-            hour: notificationWeekAndTime.dateTime.hour,
-            minute: notificationWeekAndTime.dateTime.minute,
-            second: 0,
-            millisecond: 0,
-          ),
-  );
+  for (int i = 0; i < weekDays.length; i++) {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: id,
+        channelKey: 'schedule_channel',
+        title: '$title${Emojis.wheater_droplet}',
+        body: 'Hello !! this is ur reminder',
+        notificationLayout: NotificationLayout.Default,
+      ),
+      actionButtons: [
+        NotificationActionButton(key: 'Mark_Done', label: 'Mark done'),
+      ],
+      schedule: isCalSelected
+          ? NotificationCalendar.fromDate(
+              date: notificationWeekAndTime.dateTime,
+              repeats: true,
+            )
+          : NotificationCalendar(
+              repeats: true,
+              weekday: notificationWeekAndTime.dayOfTheWeek,
+              hour: notificationWeekAndTime.dateTime.hour,
+              minute: notificationWeekAndTime.dateTime.minute + 3,
+              second: 0,
+              millisecond: 0,
+            ),
+    );
+  }
 }
 
 Future<void> cancelScheduleNotifications(int id) async {

@@ -301,6 +301,7 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                 id,
                 titleText,
                 _isCalSelected,
+                _selectedWeekDays,
                 NotificationWeekAndTime(
                     dayOfTheWeek: _selectedDay, dateTime: _dtime),
               );
@@ -337,18 +338,23 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
       topRight: Radius.circular(50),
     ),
     gradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Colors.blue[300]!.withOpacity(0.5),
-        Colors.grey[400]!,
-        Colors.grey[300]!,
-      ],
-      stops: const [0.0, 0.5, 1],
-    ),
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Colors.grey[400]!,
+          Colors.grey[300]!,
+          Colors.grey[200]!,
+          const Color(0xFFEBF3FE),
+        ],
+        stops: const [
+          0.0,
+          0.5,
+          0.7,
+          1.0
+        ]),
   );
   final snackBar = SnackBar(
-    backgroundColor: Colors.transparent,
+    backgroundColor: Colors.grey[300],
     duration: const Duration(seconds: 2),
     behavior: SnackBarBehavior.floating,
     shape: const StadiumBorder(),
@@ -356,11 +362,15 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        gradient: LinearGradient(colors: [
-          Colors.grey[800]!,
-          Colors.grey,
-          Colors.grey[300]!,
-        ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+        gradient: LinearGradient(
+          colors: [
+            Colors.grey[400]!,
+            Colors.grey[350]!,
+            Colors.grey[300]!,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
       child: const Text(
         'Title text can\'t be Empty..!',

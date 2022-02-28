@@ -15,8 +15,7 @@ class TitleTextFormField extends StatelessWidget {
       child: TextFormField(
         //initialValue: title,
         controller: _titleController,
-        cursorColor: Colors.red,
-        cursorHeight: 15,
+        cursorColor: Colors.black,
         cursorWidth: 5,
         style: const TextStyle(color: Colors.black, fontSize: 18),
         keyboardType: TextInputType.text,
