@@ -98,45 +98,6 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
     );
   }
 
-  Widget _todaysDateAndCalender() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Today : $currentDate',
-            style:
-                TextStyle(color: Colors.grey[900], fontWeight: FontWeight.w500),
-          ),
-          IconButton(
-            icon: Icon(CupertinoIcons.calendar,
-                size: 30, color: Colors.grey[900]),
-            onPressed: () => _chooseDate(context),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _wheelList(Size size) {
-    return Container(
-      height: size.height * .52,
-      // width: size.width,
-      padding: EdgeInsets.only(bottom: size.height * .05, left: 20, right: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _listWheelScroll(size, _hourController, 24, 'h'),
-          Text(':', style: TextStyle(height: 30, color: Colors.grey[600])),
-          _listWheelScroll(size, _minuteController, 60, 'm'),
-        ],
-      ),
-    );
-  }
-
   Widget _listWheelScroll(Size size, FixedExtentScrollController controller,
       int childCount, String text) {
     return Expanded(
@@ -159,6 +120,88 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
         ),
       ),
     );
+  }
+
+  Widget _wheelList(Size size) {
+    return Container(
+      height: size.height * .52,
+      // width: size.width,
+      padding: EdgeInsets.only(bottom: size.height * .05, left: 20, right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _listWheelScroll(size, _hourController, 24, 'h'),
+          Text(':', style: TextStyle(height: 30, color: Colors.grey[600])),
+          _listWheelScroll(size, _minuteController, 60, 'm'),
+        ],
+      ),
+    );
+  }
+
+  Widget _todaysDateAndCalender() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Today : $currentDate',
+            style:
+                TextStyle(color: Colors.grey[900], fontWeight: FontWeight.w500),
+          ),
+          IconButton(
+            icon: Icon(CupertinoIcons.calendar,
+                size: 30, color: Colors.grey[900]),
+            onPressed: () => _chooseDate(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _chooseDate(BuildContext context) async {
+    final date = DateTime.now();
+    DateTime? newDateTime = await showRoundedDatePicker(
+      context: context,
+      height: 340,
+      borderRadius: 35,
+      initialDate: date,
+      firstDate: DateTime(date.year),
+      lastDate: DateTime(date.year + 1),
+      theme: ThemeData.dark(),
+      imageHeader: const AssetImage('assets/3.jpg'),
+      description: 'Chose your prefered date ..',
+    );
+    if (newDateTime != null) {
+      final monthDays = newDateTime.subtract(const Duration(days: 1));
+
+      if (newDateTime.year > date.year ||
+          newDateTime.month > date.month ||
+          newDateTime.month == date.month && monthDays.day >= date.day - 1) {
+        setState(() {
+          _selectedDateTime = newDateTime;
+          _isCalSelected = true;
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (c) => CupertinoAlertDialog(
+            title: const Text(
+                "This date cannot be selected. This Day passed already !"),
+            actions: [
+              CupertinoDialogAction(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          ),
+        );
+      }
+    }
   }
 
   Widget _weekList() {
@@ -234,49 +277,6 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
         ),
       ),
     );
-  }
-
-  void _chooseDate(BuildContext context) async {
-    final date = DateTime.now();
-    DateTime? newDateTime = await showRoundedDatePicker(
-      context: context,
-      height: 340,
-      borderRadius: 35,
-      initialDate: date,
-      firstDate: DateTime(date.year),
-      lastDate: DateTime(date.year + 1),
-      theme: ThemeData.dark(),
-      imageHeader: const AssetImage('assets/3.jpg'),
-      description: 'Chose your prefered date ..',
-    );
-    if (newDateTime != null) {
-      final monthDays = newDateTime.subtract(const Duration(days: 1));
-
-      if (newDateTime.year > date.year ||
-          newDateTime.month > date.month ||
-          newDateTime.month == date.month && monthDays.day >= date.day - 1) {
-        setState(() {
-          _selectedDateTime = newDateTime;
-          _isCalSelected = true;
-        });
-      } else {
-        showDialog(
-          context: context,
-          builder: (c) => CupertinoAlertDialog(
-            title: const Text(
-                "This date cannot be selected. This Day passed already !"),
-            actions: [
-              CupertinoDialogAction(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          ),
-        );
-      }
-    }
   }
 
   Widget _cancelAndSaveButton() {
