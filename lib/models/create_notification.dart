@@ -43,7 +43,7 @@ Future<void> createScheduleNotification(
     for (int i = 0; i < weekDays.length; i++) {
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
-          id: id + 10 + i,
+          id: id + i,
           channelKey: 'schedule_channel',
           title: '$title${Emojis.wheater_droplet}',
           body: 'Hello !! this is ur reminder',
@@ -70,7 +70,7 @@ Future<void> cancelScheduleNotifications(MyAlarm myAlarm) async {
     await AwesomeNotifications().cancel(int.parse(myAlarm.id));
   } else {
     for (int i = 0; i < myAlarm.weekDays.length; i++) {
-      await AwesomeNotifications().cancel(int.parse(myAlarm.id) + 10 + i);
+      await AwesomeNotifications().cancel(int.parse(myAlarm.id) + i);
     }
   }
 }

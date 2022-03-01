@@ -340,20 +340,16 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
       topRight: Radius.circular(50),
     ),
     gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Colors.grey[400]!,
-          Colors.grey[300]!,
-          Colors.grey[200]!,
-          const Color(0xFFEBF3FE),
-        ],
-        stops: const [
-          0.0,
-          0.5,
-          0.7,
-          1.0
-        ]),
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        const Color(0xFFEBF3FE),
+        Colors.grey[200]!,
+        Colors.grey[300]!,
+        Colors.grey[400]!,
+      ],
+      stops: const [0.1, 0.4, 0.5, 1],
+    ),
   );
   final snackBar = SnackBar(
     backgroundColor: Colors.grey[300],
