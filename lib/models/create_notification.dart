@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:my_clock/models/my_alarms.dart';
 
 class NotificationWeekAndTime {
   final int dayOfTheWeek;
@@ -21,7 +22,7 @@ Future<void> createScheduleNotification(
   List<int> weekDays,
   NotificationWeekAndTime notificationWeekAndTime,
 ) async {
-//  for (int i = 0; i < weekDays.length; i++) {
+  if (isCalSelected) {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: id,
@@ -31,25 +32,45 @@ Future<void> createScheduleNotification(
         notificationLayout: NotificationLayout.Default,
       ),
       actionButtons: [
-        NotificationActionButton(key: 'Mark_Done', label: 'Mark done'),
+        NotificationActionButton(key: 'Mark_Done', label: 'Mark done')
       ],
-      schedule: isCalSelected
-          ? NotificationCalendar.fromDate(
-              date: notificationWeekAndTime.dateTime,
-              repeats: true,
-            )
-          : NotificationCalendar(
-              repeats: true,
-              weekday:notificationWeekAndTime.dayOfTheWeek,
-              hour: notificationWeekAndTime.dateTime.hour,
-              minute: notificationWeekAndTime.dateTime.minute,
-              second: 0,
-              millisecond: 0,
-            ),
+      schedule: NotificationCalendar.fromDate(
+        date: notificationWeekAndTime.dateTime,
+        repeats: true,
+      ),
     );
- // }
+  } else {
+    for (int i = 0; i < weekDays.length; i++) {
+      await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: id + 10 + i,
+          channelKey: 'schedule_channel',
+          title: '$title${Emojis.wheater_droplet}',
+          body: 'Hello !! this is ur reminder',
+          notificationLayout: NotificationLayout.Default,
+        ),
+        actionButtons: [
+          NotificationActionButton(key: 'Mark_Done', label: 'Mark done')
+        ],
+        schedule: NotificationCalendar(
+          repeats: true,
+          weekday: weekDays[i] + 1,
+          hour: notificationWeekAndTime.dateTime.hour,
+          minute: notificationWeekAndTime.dateTime.minute,
+          second: 0,
+          millisecond: 0,
+        ),
+      );
+    }
+  }
 }
 
-Future<void> cancelScheduleNotifications(int id) async {
-  await AwesomeNotifications().cancel(id);
+Future<void> cancelScheduleNotifications(MyAlarm myAlarm) async {
+  if (myAlarm.isCalSelected) {
+    await AwesomeNotifications().cancel(int.parse(myAlarm.id));
+  } else {
+    for (int i = 0; i < myAlarm.weekDays.length; i++) {
+      await AwesomeNotifications().cancel(int.parse(myAlarm.id) + 10 + i);
+    }
+  }
 }

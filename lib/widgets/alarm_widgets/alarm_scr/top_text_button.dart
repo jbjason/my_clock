@@ -89,8 +89,7 @@ class TopTextAndAddAlarmButton extends StatelessWidget {
                           .deleteAlarms(mulSelectedItems);
                       cancelMultiSel();
                       for (int i = 0; i < mulSelectedItems.length; i++) {
-                        await cancelScheduleNotifications(
-                            int.parse(mulSelectedItems[i].id));
+                        await cancelScheduleNotifications(mulSelectedItems[i]);
                       }
                       Navigator.pop(context);
                     },
