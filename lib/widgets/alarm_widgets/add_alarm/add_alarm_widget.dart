@@ -303,7 +303,9 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
                 _isCalSelected,
                 _selectedWeekDays,
                 NotificationWeekAndTime(
-                    dayOfTheWeek: _selectedDay, dateTime: _dtime),
+                  dayOfTheWeek: _selectedDay,
+                  dateTime: _dtime,
+                ),
               );
               _selectedWeekDays.sort();
               Provider.of<MyAlarms>(context, listen: false).addAlarm(MyAlarm(

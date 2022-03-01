@@ -21,7 +21,7 @@ Future<void> createScheduleNotification(
   List<int> weekDays,
   NotificationWeekAndTime notificationWeekAndTime,
 ) async {
-  for (int i = 0; i < weekDays.length; i++) {
+//  for (int i = 0; i < weekDays.length; i++) {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: id,
@@ -40,14 +40,14 @@ Future<void> createScheduleNotification(
             )
           : NotificationCalendar(
               repeats: true,
-              weekday:weekDays[0]+1,
+              weekday:notificationWeekAndTime.dayOfTheWeek,
               hour: notificationWeekAndTime.dateTime.hour,
               minute: notificationWeekAndTime.dateTime.minute,
               second: 0,
               millisecond: 0,
             ),
     );
-  }
+ // }
 }
 
 Future<void> cancelScheduleNotifications(int id) async {
