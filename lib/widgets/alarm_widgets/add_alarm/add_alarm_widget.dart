@@ -318,8 +318,10 @@ class _AddAlarmWidgetState extends State<AddAlarmWidget> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  const SnackBar(
-                    content: Text('Alarm Has been Created'),
+                  SnackBar(
+                    duration: const Duration(seconds: 2),
+                    content: Text(
+                        'Alarm set for ${(DateTime.now().hour - _dtime.hour).abs()} hour ${(DateTime.now().minute - _dtime.minute).abs()} minutes from now.'),
                   ),
                 );
               Navigator.pop(context);
