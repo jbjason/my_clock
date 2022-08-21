@@ -16,11 +16,11 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
   Duration duration = const Duration(), d = const Duration();
   bool _isStarted = false, _isStopped = false;
   final List<LapItem> lapList = [];
+  double _val = 0, _milli = 0;
   Timer? timer;
 
   @override
   Widget build(BuildContext context) {
-    final value = (duration.inSeconds / 60);
     final size = MediaQuery.of(context).size;
     return Center(
       child: Column(
@@ -29,7 +29,7 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
           const SizedBox(height: 20),
           BuildStopWatch(
             duration: duration,
-            val: value - value.toInt(),
+            val: _milli,
             size: size,
           ),
           const SizedBox(height: 50),
@@ -105,9 +105,13 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
 
   void _startWatch() {
     setState(() => _isStarted = true);
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+    timer = Timer.periodic(const Duration(milliseconds: 40), (_) {
       if (mounted) {
-        setState(() => duration = Duration(seconds: duration.inSeconds + 1));
+        setState(() {
+          _val += 40;
+          _milli = (_val % 1000) / 1000;
+          duration = Duration(seconds: _val ~/ 1000);
+        });
       }
     });
   }
@@ -135,6 +139,8 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
       timer?.cancel();
       _isStarted = false;
       _isStopped = false;
+      _val = 0;
+      _milli = 0;
     });
   }
 
