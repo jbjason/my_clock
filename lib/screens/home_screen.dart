@@ -18,12 +18,12 @@ class HomeScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ValueListenableBuilder(
-        valueListenable: _selectedIndex,
-        builder: (context, int currentIndex, _) => _screens[currentIndex],
+    return ValueListenableBuilder(
+      valueListenable: _selectedIndex,
+      builder: (context, int currentIndex, _) => Scaffold(
+        body: _screens[currentIndex],
+        bottomNavigationBar: NavBar(selectedIndex: _selectedIndex),
       ),
-      bottomNavigationBar: NavBar(selectedIndex: _selectedIndex),
     );
   }
 }
@@ -44,50 +44,22 @@ class NavBar extends StatelessWidget {
           border: Border.all(
               color: const Color(0xFF3F6080).withOpacity(.2), width: 2),
         ),
-        child: ValueListenableBuilder(
-          valueListenable: selectedIndex,
-          builder: (context, int currentIndex, _) => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _navItem(0, currentIndex, CupertinoIcons.alarm),
-              _navItem(1, currentIndex, CupertinoIcons.clock),
-              _navItem(2, currentIndex, CupertinoIcons.stopwatch_fill),
-              _navItem(3, currentIndex, CupertinoIcons.timer),
-              // InkWell(
-              //     onTap: () => currentIndex = 0,
-              //     child: currentIndex == 0
-              //         ? const TappedButton(widget: Icon(CupertinoIcons.alarm))
-              //         : const MyButton(widget: Icon(CupertinoIcons.alarm))),
-              // InkWell(
-              //     onTap: () => currentIndex = 1,
-              //     child: currentIndex == 1
-              //         ? const TappedButton(widget: Icon(CupertinoIcons.clock))
-              //         : const MyButton(widget: Icon(CupertinoIcons.clock))),
-              // InkWell(
-              //     onTap: () => currentIndex = 2,
-              //     child: currentIndex == 2
-              //         ? const TappedButton(
-              //             widget: Icon(CupertinoIcons.stopwatch_fill))
-              //         : const MyButton(
-              //             widget: Icon(CupertinoIcons.stopwatch_fill))),
-              // InkWell(
-              //     onTap: () => currentIndex = 3,
-              //     child: currentIndex == 3
-              //         ? const TappedButton(widget: Icon(CupertinoIcons.timer))
-              //         : const MyButton(widget: Icon(CupertinoIcons.timer))),
-            ],
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _navItem(0, CupertinoIcons.alarm),
+            _navItem(1, CupertinoIcons.clock),
+            _navItem(2, CupertinoIcons.stopwatch_fill),
+            _navItem(3, CupertinoIcons.timer),
+          ],
         ),
       ),
     );
   }
 
-  Widget _navItem(int index, int currentIndex, IconData icon) => InkWell(
-        onTap: () {
-          currentIndex = index;
-          selectedIndex.value = index;
-        },
-        child: index == currentIndex
+  Widget _navItem(int index, IconData icon) => InkWell(
+        onTap: () => selectedIndex.value = index,
+        child: index == selectedIndex.value
             ? TappedButton(widget: Icon(icon))
             : MyButton(widget: Icon(icon)),
       );

@@ -11,11 +11,12 @@ class ClockScreen extends StatefulWidget {
 }
 
 class _ClockScreenState extends State<ClockScreen> {
+  late Timer _timer;
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      if(mounted){
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (mounted) {
         setState(() {});
       }
     });
@@ -24,7 +25,7 @@ class _ClockScreenState extends State<ClockScreen> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
+      child: SizedBox(
         height: 300,
         width: 300,
         child: Stack(
@@ -35,6 +36,7 @@ class _ClockScreenState extends State<ClockScreen> {
             Transform.rotate(
               angle: pi / 2,
               child: Container(
+                //It paints a box which expands to fill its parent widget
                 constraints: const BoxConstraints.expand(),
                 child: CustomPaint(
                   painter: ClockPainter(),
@@ -45,6 +47,12 @@ class _ClockScreenState extends State<ClockScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }
 
@@ -111,17 +119,17 @@ class ClockPainter extends CustomPainter {
       centerX + 20 * sin(dateTime.hour * 6 * pi / 180),
     );
 
-    Paint centerCirclePaint = Paint()..color =const Color(0xFFE81466);
+    Paint centerCirclePaint = Paint()..color = const Color(0xFFE81466);
     Paint secondPaint = Paint()
-      ..color =const Color(0xFFE81466)
+      ..color = const Color(0xFFE81466)
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
     Paint minPaint = Paint()
-      ..color =const Color(0xFFBEC5D5)
+      ..color = const Color(0xFFBEC5D5)
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
     Paint hourPaint = Paint()
-      ..color =const Color(0xFF222E63)
+      ..color = const Color(0xFF222E63)
       ..strokeWidth = 6
       ..strokeCap = StrokeCap.round;
 

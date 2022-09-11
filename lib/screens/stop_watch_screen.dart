@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_clock/models/lap_item.dart';
+import 'package:my_clock/widgets/stop_watch_widgets/laptitme_title_all.dart';
 import 'package:my_clock/widgets/common_widgets/progress_indicator/build_stop_watch.dart';
 import 'package:my_clock/widgets/common_widgets/white_button.dart';
 
 class StopWatchScreen extends StatefulWidget {
   const StopWatchScreen({Key? key}) : super(key: key);
-
   @override
   State<StopWatchScreen> createState() => _StopWatchScreenState();
 }
@@ -27,60 +27,15 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 20),
-          BuildStopWatch(
-            duration: duration,
-            val: _milli,
-            size: size,
-          ),
+          BuildStopWatch(duration: duration, val: _milli, size: size),
           const SizedBox(height: 50),
           // lapTime & related title
-          Container(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            height: size.height * .2,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    Text('Lap', style: TextStyle(fontWeight: FontWeight.w400)),
-                    Text('Lap Time',
-                        style: TextStyle(fontWeight: FontWeight.w400)),
-                    Text('Overall Time',
-                        style: TextStyle(fontWeight: FontWeight.w400)),
-                  ],
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Divider(
-                        color: Colors.grey.withOpacity(0.5), thickness: 1.5)),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (context, i) {
-                      return Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text((i + 1).toString()),
-                            Text(_formatDuration(lapList[i].lapTime)),
-                            Text(_formatDuration(lapList[i].overallTime)),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: lapList.length,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          LapTimeTitleAll(size: size, lapList: lapList),
           //  !_isPressed means its Visible
           Visibility(
             visible: !_isStarted,
             child: InkWell(
-              onTap: _startWatch,
-              child: const WhiteButton(text: 'Start'),
-            ),
+                onTap: _startWatch, child: const WhiteButton(text: 'Start')),
           ),
           _isStarted
               ? Row(
@@ -147,13 +102,6 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
   void _currentLaptime() {
     d = duration - d;
     lapList.add(LapItem(lapTime: d, overallTime: duration));
-  }
-
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 
   @override

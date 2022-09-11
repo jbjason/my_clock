@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_clock/models/my_alarms.dart';
-import 'package:my_clock/widgets/alarm_widgets/alarm_scr/alarm_listitem.dart';
-import 'package:my_clock/widgets/alarm_widgets/alarm_scr/selected_circle_icon.dart';
-import 'package:my_clock/widgets/alarm_widgets/alarm_scr/top_text_button.dart';
+import 'package:my_clock/widgets/alarm_widgets/alarm_home/alarm_listitem.dart';
+import 'package:my_clock/widgets/alarm_widgets/alarm_home/selected_circle_icon.dart';
+import 'package:my_clock/widgets/alarm_widgets/alarm_home/top_text_button.dart';
 import 'package:provider/provider.dart';
 
 class AlarmScreen extends StatefulWidget {
