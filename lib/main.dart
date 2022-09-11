@@ -36,9 +36,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,
-          scaffoldBackgroundColor:const  Color(0xFFE0E0E0),
+          scaffoldBackgroundColor: const Color(0xFFE0E0E0),
         ),
-        home: const HomeScreen(),
+        home: HomeScreen(),
       ),
     );
   }
