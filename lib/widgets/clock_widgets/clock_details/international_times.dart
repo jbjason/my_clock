@@ -16,7 +16,7 @@ class InternationalTimes extends StatelessWidget {
 
   Widget _getInternationalTime(String country, int _hourBehind) {
     final _time = DateTime.now();
-    final _timeNow = '${_time.hour + _hourBehind} : ${_time.minute}';
+    final _timeNow = '${(_time.hour + _hourBehind) % 24} : ${_time.minute}';
     final _hourText = _hourBehind < 0 ? -_hourBehind : _hourBehind;
     return Container(
       height: 110,
