@@ -112,16 +112,16 @@ class _ClockDetailsState extends State<ClockDetails> {
 
   String _getTemp() => temp != null
       ? '${((temp - 32) * (5 / 9)).toStringAsFixed(1)}\u00B0'
-      : 'Loading';
-  String _getWind() => windSpeed != null ? windSpeed.toString() : 'loading';
-  String _getHumidy() => humidiy != null ? '$humidiy\u00B0' : 'loading';
-  String _getWeather() => weather != null ? weather.toString() : 'loading';
+      : '....';
+  String _getWind() => windSpeed != null ? windSpeed.toString() : '....';
+  String _getHumidy() => humidiy != null ? '$humidiy\u00B0' : '....';
+  String _getWeather() => weather != null ? weather.toString() : '....';
 
   String _getImage() {
     final hour = DateTime.now().hour;
-    final _hourImage = hour < 12
+    final _hourImage = hour < 16
         ? 'sun'
-        : hour < 7
+        : hour < 20
             ? 'evening'
             : 'night';
 
