@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class WhiteShadowContainer extends StatelessWidget {
   const WhiteShadowContainer({
     Key? key,

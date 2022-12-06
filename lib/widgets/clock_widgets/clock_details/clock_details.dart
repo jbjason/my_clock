@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_clock/widgets/clock_widgets/clock_details/name_and_weather.dart';
 
 class ClockDetails extends StatefulWidget {
   const ClockDetails({Key? key}) : super(key: key);
@@ -52,7 +53,7 @@ class _ClockDetailsState extends State<ClockDetails> {
         ),
         Column(
           children: [
-            _nameAndWeather(_weather),
+            NameAndWeather(weather: _weather),
             const SizedBox(height: 10),
             Expanded(
               child: Row(
@@ -84,31 +85,6 @@ class _ClockDetailsState extends State<ClockDetails> {
       ],
     );
   }
-
-  Widget _nameAndWeather(String weath) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(weath, style: const TextStyle(fontSize: 25)),
-            Container(
-              padding: const EdgeInsets.all(25),
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: SweepGradient(colors: [
-                    Colors.white12,
-                    Colors.white54,
-                    Colors.white12,
-                    Colors.white54
-                  ])),
-              child: const Text(
-                'Dhaka',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
-      );
 
   String _getTemp() => temp != null
       ? '${((temp - 32) * (5 / 9)).toStringAsFixed(1)}\u00B0'

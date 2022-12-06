@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_clock/models/my_alarms.dart';
 import 'package:my_clock/widgets/alarm_widgets/alarm_home/alarm_listitem.dart';
-import 'package:my_clock/widgets/alarm_widgets/alarm_home/selected_circle_icon.dart';
+import 'package:my_clock/widgets/alarm_widgets/alarm_home/all_selection_text.dart';
 import 'package:my_clock/widgets/alarm_widgets/alarm_home/top_text_button.dart';
 import 'package:provider/provider.dart';
 
@@ -52,50 +52,39 @@ class _AlarmScreenState extends State<AlarmScreen> {
   }
 
   Widget _allSelcectionText(List<MyAlarm> _myAlarms) {
+    // showing all selected text after MultiSelected activated
     return _isMultiSelect
-        ? InkWell(
+        ? AllSelectionText(
+            isMultiSelect: _isMultiSelect,
+            isAllSelected: _isAllSelected,
             onTap: () {
-              setState(() {
-                _isAllSelected = !_isAllSelected;
-                if (_isAllSelected) {
-                  _selectedItem = [];
-                  _selectedItem = [..._myAlarms];
-                } else {
-                  _selectedItem = [];
-                }
-              });
+              _isAllSelected = !_isAllSelected;
+              if (_isAllSelected) {
+                _selectedItem = [];
+                _selectedItem = [..._myAlarms];
+              } else {
+                _selectedItem = [];
+              }
+              setState(() {});
             },
-            child: Container(
-              height: 30,
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: Row(
-                children: [
-                  SelectedCirleIcon(
-                      isMultiSel: _isMultiSelect, isSelected: _isAllSelected),
-                  const SizedBox(width: 15),
-                  const Text('All',
-                      style: TextStyle(fontWeight: FontWeight.w400)),
-                ],
-              ),
-            ),
           )
         : Container();
   }
 
-  void enabledMultiSel() => setState(() {
-        _isMultiSelect = !_isMultiSelect;
-        _selectedItem = [];
-      });
+  void enabledMultiSel() {
+    _isMultiSelect = !_isMultiSelect;
+    _selectedItem = [];
+    setState(() {});
+  }
 
   void addToSelectedItem(MyAlarm myAlarm) {
     if (_isMultiSelect) {
-      setState(() {
-        if (_selectedItem.contains(myAlarm)) {
-          _selectedItem.remove(myAlarm);
-        } else {
-          _selectedItem.add(myAlarm);
-        }
-      });
+      if (_selectedItem.contains(myAlarm)) {
+        _selectedItem.remove(myAlarm);
+      } else {
+        _selectedItem.add(myAlarm);
+      }
+      setState(() {});
     }
   }
 }
