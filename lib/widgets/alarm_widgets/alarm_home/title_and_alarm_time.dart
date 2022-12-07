@@ -29,7 +29,7 @@ class TitleAndAlarmTime extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(myAlarm.title),
+            Text(myAlarm.title, maxLines: 2),
             const SizedBox(height: 8),
             Text(
               _isLesser

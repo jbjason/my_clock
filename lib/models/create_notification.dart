@@ -27,8 +27,8 @@ Future<void> createScheduleNotification(
       content: NotificationContent(
         id: id,
         channelKey: 'schedule_channel',
-        title: '$title${Emojis.wheater_droplet}',
-        body: 'Hello !! this is ur reminder',
+        title: '$title ${Emojis.wheater_droplet}',
+        body: 'Hello! This is ur reminder. You have set one to do that work',
         notificationLayout: NotificationLayout.Default,
       ),
       actionButtons: [
@@ -45,8 +45,8 @@ Future<void> createScheduleNotification(
         content: NotificationContent(
           id: id + i,
           channelKey: 'schedule_channel',
-          title: '$title${Emojis.wheater_droplet}',
-          body: 'Hello !! this is ur reminder',
+          title: '$title ${Emojis.wheater_droplet}',
+          body: 'Hello! This is ur reminder. You have set one to do that work',
           notificationLayout: NotificationLayout.Default,
         ),
         actionButtons: [
