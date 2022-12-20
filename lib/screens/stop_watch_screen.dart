@@ -21,16 +21,15 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 20),
-          BuildStopWatch(duration: duration, val: _milli, size: size),
+          BuildStopWatch(duration: duration, val: _milli),
           const SizedBox(height: 50),
           // lapTime & related title
-          LapTimeTitleAll(size: size, lapList: lapList),
+          LapTimeTitleAll(lapList: lapList),
           //  !_isPressed means its Visible
           Visibility(
             visible: !_isStarted,
@@ -62,41 +61,37 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
     setState(() => _isStarted = true);
     timer = Timer.periodic(const Duration(milliseconds: 40), (_) {
       if (mounted) {
-        setState(() {
-          _val += 40;
-          _milli = (_val % 1000) / 1000;
-          duration = Duration(seconds: _val ~/ 1000);
-        });
+        _val += 40;
+        _milli = (_val % 1000) / 1000;
+        duration = Duration(seconds: _val ~/ 1000);
+        setState(() {});
       }
     });
   }
 
   void _stopWatch() {
-    setState(() {
-      _isStopped = !_isStopped; //_isStopped true hobe
-      _currentCountDown = duration;
-      timer?.cancel();
-    });
+    _isStopped = !_isStopped; //_isStopped true hobe
+    _currentCountDown = duration;
+    timer?.cancel();
+    setState(() {});
   }
 
   // Resume & Reset will appear in same Time
   void _resumeWatch() {
-    setState(() {
-      duration = _currentCountDown;
-      _isStopped = false;
-    });
+    duration = _currentCountDown;
+    _isStopped = false;
+    setState(() {});
     _startWatch();
   }
 
   void _resetWatch() {
-    setState(() {
-      duration = const Duration();
-      timer?.cancel();
-      _isStarted = false;
-      _isStopped = false;
-      _val = 0;
-      _milli = 0;
-    });
+    duration = const Duration();
+    timer?.cancel();
+    _isStarted = false;
+    _isStopped = false;
+    _val = 0;
+    _milli = 0;
+    setState(() {});
   }
 
   void _currentLaptime() {

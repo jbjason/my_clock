@@ -1,53 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:my_clock/widgets/common_widgets/progress_indicator/build_time.dart';
+import 'package:vector_math/vector_math.dart' as math;
 
 class BuildStopWatch extends StatelessWidget {
-  const BuildStopWatch(
-      {Key? key, required this.duration, required this.val, required this.size})
+  const BuildStopWatch({Key? key, required this.duration, required this.val})
       : super(key: key);
   final Duration duration;
   final double val;
-  final Size size;
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SizedBox(
       width: size.width * .8,
       height: size.height * .4,
       child: Stack(
         fit: StackFit.expand,
         children: [
-          CircularProgressIndicator(
-            value: val,
-            valueColor: const AlwaysStoppedAnimation(Color(0xFFD6D6D6)),
-            strokeWidth: 20,
-            backgroundColor: const Color(0xFFEEEEEE),
-          ),
+          // circular progress indicator
+          CustomPaint(painter: CirularPainter(val: val)),
           // Current time ,situated inside of the ProgressIndicator
           Center(child: BuildTime(duration: duration)),
         ],
       ),
     );
   }
+}
 
-  // getting values for ProgressIndicator(value:)
-  // double _setSecond(Duration dur) {
-  // CircularProgressIndicator(value:) takes only fruction values ..
-  // here getting part value(double) of totalTime .ex. totalTIme=120 ,
-  //  totalTime.isSeconds(120) / _currentSecond ==1 this giving 0 part of 120
-  //  totalTime.isSeconds(119) / _currentSecond ==0.992  this giving 1 part of 120
-  //  totalTime.isSeconds(118) / _currentSecond ==0.983 this giving 2 part of 120
-  // for 119 = 0.992 returning 0.992   for 118 = 0.983 , returning 0.983
-  // here 0 is the destination ,1 is starting *(anti clockWise process).
-  // this process giving anti clockWise ProgressIndicatior value ..
-  //   double _currentSecond = dur.inSeconds / totalTime; // totalTime = initialTimeDuration.inseconds
-  // if we want clockwise ProgressIndicatior value then statement should be
-  // double _currentSecond =  (dur.inSeconds / _totalTime); return 1- currentSecond
-  // this will provide
-  //for 120, (1- (120/120) )== 0  , for 119, ( 1-(119/120) )=>(0.992-1)=>0.008
-  //for 118, (1- (118/120) )=>(1-0.983)=> 0.017  , for 117, (1-(117/120))=>(1-0.975)=>0.025
-  // 1 is the destination for clockWise process
-  // -to continue process we need to return _currentSecond - _currentSecond.toInt() .
-  //  -for 0.5, 0.5-0 =.5 for 1.5, 1.5-1 =.5 for 1.7, 1.7-1 =.7 always having fruction value
-  //   return _currentSecond;
-  // }
+class CirularPainter extends CustomPainter {
+  const CirularPainter({required this.val});
+  final double val;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final h = size.height, w = size.width;
+    final center = Offset(w / 2, h / 2);
+    final progress = 360 * val;
+
+    final gradient = SweepGradient(
+      tileMode: TileMode.repeated,
+      startAngle: math.radians(270),
+      endAngle: math.radians(270 + 360),
+      colors: [
+        Colors.blue[200]!.withOpacity(.1),
+        Colors.blue[200]!.withOpacity(.25),
+        Colors.blue[200]!.withOpacity(0.6),
+        Colors.blue[200]!.withOpacity(0.75),
+        Colors.blue[200]!.withOpacity(0.85),
+      ],
+    );
+    final rect = Rect.fromCenter(center: center, width: w, height: h);
+    final paint = Paint()
+      ..color = const Color(0xFFEEEEEE)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 30;
+    final paint1 = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 30
+      ..shader = gradient.createShader(rect);
+
+    canvas.drawArc(rect, 0, 360, false, paint);
+    canvas.drawArc(
+        rect, math.radians(270), math.radians(progress), false, paint1);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

@@ -14,17 +14,13 @@ class TimerScreen extends StatefulWidget {
 
 class _TimerScreenState extends State<TimerScreen> {
   final FixedExtentScrollController _hourController =
-      FixedExtentScrollController(initialItem: 5);
+      FixedExtentScrollController(initialItem: 0);
   final FixedExtentScrollController _minuteController =
       FixedExtentScrollController(initialItem: 5);
   final FixedExtentScrollController _secondController =
       FixedExtentScrollController(initialItem: 5);
-  int h = 5, m = 5, s = 5;
+  int h = 0, m = 5, s = 5;
   bool _isTimerSet = false;
-
-  void changeTimerMode() {
-    setState(() => _isTimerSet = !_isTimerSet);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +66,11 @@ class _TimerScreenState extends State<TimerScreen> {
               ),
             ),
           );
+  }
+
+  void changeTimerMode() {
+    if (h == 0 && m == 0 && s == 0) return;
+    setState(() => _isTimerSet = !_isTimerSet);
   }
 
   Widget _listWheel(Size size, FixedExtentScrollController controller,

@@ -28,29 +28,16 @@ class _TimerClockState extends State<TimerClock> {
     _startWatch();
   }
 
-  void _startWatch() {
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (duration.inSeconds != 0) {
-        if (mounted) {
-          setState(() => duration = Duration(seconds: duration.inSeconds - 1));
-        }
-      } else {
-        timer!.cancel();
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Circular Progress Indicator & Time
           BuildStopWatch(
             duration: duration,
             val: duration.inSeconds / _totalTime,
-            size: size,
           ),
           const SizedBox(height: 50),
           if (flag)
@@ -77,19 +64,29 @@ class _TimerClockState extends State<TimerClock> {
     );
   }
 
-  void _stopWatch() {
-    setState(() {
-      _currentCountDown = duration;
-      timer?.cancel();
-      flag = !flag;
+  void _startWatch() {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (duration.inSeconds != 0) {
+        if (mounted) {
+          setState(() => duration = Duration(seconds: duration.inSeconds - 1));
+        }
+      } else {
+        _cancelWatch();
+      }
     });
   }
 
+  void _stopWatch() {
+    _currentCountDown = duration;
+    timer?.cancel();
+    flag = !flag;
+    setState(() {});
+  }
+
   void _resumeWatch() {
-    setState(() {
-      duration = _currentCountDown;
-      flag = !flag;
-    });
+    duration = _currentCountDown;
+    flag = !flag;
+    setState(() {});
     _startWatch();
   }
 

@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_clock/models/lap_item.dart';
 
 class LapTimeTitleAll extends StatelessWidget {
-  const LapTimeTitleAll({
-    Key? key,
-    required this.size,
-    required this.lapList,
-  }) : super(key: key);
-
-  final Size size;
+  const LapTimeTitleAll({Key? key, required this.lapList}) : super(key: key);
   final List<LapItem> lapList;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 15),
       height: size.height * .2,
